@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://clearcode1124.github.io</id>
-    <title>Gridea</title>
-    <updated>2019-10-12T13:06:58.503Z</updated>
+    <title>CWD.</title>
+    <updated>2019-10-12T13:11:31.887Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://clearcode1124.github.io"/>
     <link rel="self" href="https://clearcode1124.github.io/atom.xml"/>
-    <subtitle>温故而知新</subtitle>
+    <subtitle>在最深的红尘里与你相遇</subtitle>
     <logo>https://clearcode1124.github.io/images/avatar.png</logo>
     <icon>https://clearcode1124.github.io/favicon.ico</icon>
-    <rights>All rights reserved 2019, Gridea</rights>
+    <rights>All rights reserved 2019, CWD.</rights>
     <entry>
         <title type="html"><![CDATA[RabbitMQ]]></title>
         <id>https://clearcode1124.github.io/post/rabbitmq</id>
