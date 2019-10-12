@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://clearcode1124.github.io</id>
     <title>CWD.</title>
-    <updated>2019-10-12T13:11:31.887Z</updated>
+    <updated>2019-10-12T13:15:33.029Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://clearcode1124.github.io"/>
     <link rel="self" href="https://clearcode1124.github.io/atom.xml"/>
@@ -16,5 +16,19 @@
         <link href="https://clearcode1124.github.io/post/rabbitmq">
         </link>
         <updated>2019-10-12T09:54:03.000Z</updated>
+        <summary type="html"><![CDATA[<h3 id="简介天天向上卡索">简介（<a href="https://www.jianshu.com/p/542e371c7f77">天天向上卡索</a>）</h3>
+<blockquote>
+<p>RabbitMQ——Rabbit Message Queue的简写，但不能仅仅理解其为消息队列，消息代理更合适。RabbitMQ 是一个由 Erlang 语言开发的AMQP（高级消息队列协议）的开源实现。<br>
+RabbitMQ作为一个消息代理，主要和消息打交道，负责接收并转发消息。<br>
+RabbitMQ提供了可靠的消息机制、跟踪机制和灵活的消息路由，支持消息集群和分布式部署。适用于排队算法、秒杀活动、消息分发、异步处理、数据同步、处理耗时任务、CQRS等应用场景</p>
+</blockquote>
+]]></summary>
+        <content type="html"><![CDATA[<h3 id="简介天天向上卡索">简介（<a href="https://www.jianshu.com/p/542e371c7f77">天天向上卡索</a>）</h3>
+<blockquote>
+<p>RabbitMQ——Rabbit Message Queue的简写，但不能仅仅理解其为消息队列，消息代理更合适。RabbitMQ 是一个由 Erlang 语言开发的AMQP（高级消息队列协议）的开源实现。<br>
+RabbitMQ作为一个消息代理，主要和消息打交道，负责接收并转发消息。<br>
+RabbitMQ提供了可靠的消息机制、跟踪机制和灵活的消息路由，支持消息集群和分布式部署。适用于排队算法、秒杀活动、消息分发、异步处理、数据同步、处理耗时任务、CQRS等应用场景</p>
+</blockquote>
+]]></content>
     </entry>
 </feed>
