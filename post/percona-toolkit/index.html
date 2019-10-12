@@ -1,0 +1,303 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>Percona Toolkit | CWD.</title>
+<meta name="description" content="在最深的红尘里与你相遇">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://clearcode1124.github.io/favicon.ico?v=1570890359457">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://clearcode1124.github.io/styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://clearcode1124.github.io">
+        <img class="avatar" src="https://clearcode1124.github.io/images/avatar.png?v=1570890359457" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://clearcode1124.github.io">
+        <h1 class="site-title">CWD.</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="menu purple-link">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="menu purple-link">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        <div class="post-detail">
+          
+          <h2 class="post-title">Percona Toolkit</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2019-10-12</span>
+            
+          </div>
+          <div class="post-content">
+            <h3 id="简介">简介</h3>
+<blockquote>
+<p>Percona Toolkit是Percona技术人员开发和使用的高级开源命令行工具的集合，旨在执行各种MySQL和MongoDB服务器和系统任务。</p>
+</blockquote>
+<!-- more -->
+<h3 id="安装">安装</h3>
+<ul>
+<li>参考<a href="https://www.percona.com/doc/percona-toolkit/3.0/installation.html">installation</a></li>
+</ul>
+<pre><code class="language-bash">yum install perl perl-IO-Socket-SSL perl-Time-HiRes #安装依赖包
+
+wget percona.com/get/percona-toolkit.tar.gz #下载压缩包
+
+tar xzvf percona-toolkit-2.1.1.tar.gz #解压
+
+cd percona-toolkit-2.1.1 #进入目录
+
+perl Makefile.PL #生成对应文件
+
+#开始安装
+make
+make test
+make install
+
+pt-archiver --version #查看版本，看看是否安装成功
+pt-archiver 3.0.10
+</code></pre>
+<h3 id="使用">使用</h3>
+<h4 id="参数介绍">参数介绍</h4>
+<ul>
+<li>
+<p>--source</p>
+<blockquote>
+<p>源数据库</p>
+</blockquote>
+</li>
+<li>
+<p>--dest</p>
+<blockquote>
+<p>归档数据库</p>
+</blockquote>
+</li>
+<li>
+<p>DSN 参数（注意不能有空格，否则会报错）</p>
+<ul>
+<li>h          主机</li>
+<li>P（大写）   端口</li>
+<li>u          用户名</li>
+<li>p（小写）   密码</li>
+<li>D          数据库名</li>
+<li>t          表名</li>
+</ul>
+</li>
+<li>
+<p>--where</p>
+<blockquote>
+<p>查询条件</p>
+</blockquote>
+</li>
+<li>
+<p>--limit 10000</p>
+<blockquote>
+<p>每次取1000行数据给pt-archive处理</p>
+</blockquote>
+</li>
+<li>
+<p>--txn-size 1000</p>
+<blockquote>
+<p>设置1000行为一个事务提交一次</p>
+</blockquote>
+</li>
+<li>
+<p>--progress 5000</p>
+<blockquote>
+<p>每处理5000行输出一次处理信息</p>
+</blockquote>
+</li>
+<li>
+<p>--statistics</p>
+<blockquote>
+<p>结束的时候给出统计信息：开始的时间点，结束的时间点，查询的行数，归档的行数，删除的行数，以及各个阶段消耗的总的时间和比例，便于以此进行优化。只要不加上--quiet，默认情况下pt-archive都会输出执行过程的</p>
+</blockquote>
+</li>
+<li>
+<p>--charset=UTF8</p>
+<blockquote>
+<p>指定字符集为UTF8，字符集需要对应当前库的字符集来操作</p>
+</blockquote>
+</li>
+<li>
+<p>--no-delete</p>
+<blockquote>
+<p>表示不删除原来的数据，注意：如果不指定此参数，所有处理完成后，都会清理原表中的数据</p>
+</blockquote>
+</li>
+<li>
+<p>--bulk-delete</p>
+<blockquote>
+<p>批量删除source上的旧数据</p>
+</blockquote>
+</li>
+<li>
+<p>--bulk-insert</p>
+<blockquote>
+<p>批量插入数据到dest主机，要配合limit和txn-size一起才能使用 (看dest的general log发现它是通过在dest主机上LOAD DATA LOCAL INFILE插入数据的)</p>
+</blockquote>
+</li>
+<li>
+<p>--purge</p>
+<blockquote>
+<p>删除source数据库的相关匹配记录</p>
+</blockquote>
+</li>
+<li>
+<p>--local</p>
+<blockquote>
+<p>不把optimize或analyze操作写入到binlog里面（防止造成主从延迟巨大）</p>
+</blockquote>
+</li>
+<li>
+<p>--analyze=ds</p>
+<blockquote>
+<p>操作结束后，优化表空间（d表示dest，s表示source）</p>
+</blockquote>
+</li>
+<li>
+<p>--ignore</p>
+<blockquote>
+<p>忽略重复的记录</p>
+</blockquote>
+</li>
+<li>
+<p>--replace</p>
+<blockquote>
+<p>覆盖重复的记录</p>
+</blockquote>
+</li>
+</ul>
+<h4 id="示例">示例</h4>
+<pre><code class="language-bash"># 不同mysql实例间的归档
+pt-archiver --source h=,P=,u=,p=,D=,t= --dest h=,P=,u=,p=,D=,t= --where 'id&gt;=1' --limit=10000 --txn-size 10000 -no-delete
+</code></pre>
+<h3 id="问题解决方法">问题&amp;解决方法</h3>
+<h4 id="cant-locate-digestmd5pm-in-inc-inc-contains">Can't locate Digest/MD5.pm in @INC (@INC contains:</h4>
+<pre><code class="language-bash">yum -y install perl-Digest-MD5
+</code></pre>
+<h4 id="cant-locate-extutilsmakemakerpm-in-inc">Can't locate ExtUtils/MakeMaker.pm in @INC</h4>
+<pre><code class="language-bash">yum install perl-ExtUtils-CBuilder perl-ExtUtils-MakeMaker
+</code></pre>
+<h3 id="最后一行无法归档">最后一行无法归档</h3>
+<ul>
+<li>这是pt-archiver的一个BUG</li>
+</ul>
+<pre><code class="language-bash">
+cd /usr/local/percona-toolkit/percona-toolkit-3.0.10/bin # 进入安装目录
+
+vi pt-archiver
+:/AND ($col # 找到这一句
+$first_sql .= ” AND ($col &lt;= ” . $q-&gt;quote_val($val) . “)”; # 将$col &lt; 改成 $col &lt;=
+</code></pre>
+
+          </div>
+        </div>
+
+        
+          <div class="next-post">
+            <a class="purple-link" href="https://clearcode1124.github.io/post/springboot-nutzdao">
+              <h3 class="post-title">
+                下一篇：SpringBoot + NutzDao
+              </h3>
+            </a>
+          </div>
+          
+      </div>
+
+      
+
+      <div class="site-footer">
+  <div class="slogan">在最深的红尘里与你相遇</div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://clearcode1124.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+
+    </div>
+    <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>

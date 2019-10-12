@@ -1,0 +1,325 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>Docker | CWD.</title>
+<meta name="description" content="在最深的红尘里与你相遇">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://clearcode1124.github.io/favicon.ico?v=1570890359457">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://clearcode1124.github.io/styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://clearcode1124.github.io">
+        <img class="avatar" src="https://clearcode1124.github.io/images/avatar.png?v=1570890359457" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://clearcode1124.github.io">
+        <h1 class="site-title">CWD.</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="menu purple-link">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="menu purple-link">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        <div class="post-detail">
+          
+          <h2 class="post-title">Docker</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2019-10-12</span>
+            
+          </div>
+          <div class="post-content">
+            <p><strong>关于Docker的一些笔记</strong></p>
+<!-- more -->
+<h3 id="安装">安装</h3>
+<pre><code class="language-bash">yum -y install docker #centOs
+
+apt-get install -y docker.io #ubuntu
+
+systemctl start docker #启动 Docker 后台服务
+
+docker --version #查看版本，安装成功
+Docker version 1.13.1, build 94f4240/1.13.1
+</code></pre>
+<h3 id="加速器">加速器</h3>
+<ul>
+<li>
+<p>用的是DaoCloud的加速器，进入控制台的加速器</p>
+<figure data-type="image" tabindex="1"><img src="http://ouesp352x.bkt.clouddn.com/DaoCloud%E5%8A%A0%E9%80%9F%E5%99%A81.jpg" alt=""></figure>
+</li>
+<li>
+<p>复制代码到本地运行，即可将registry-mirror加入到Docker 配置文件 /etc/docker/daemon.json 中</p>
+<figure data-type="image" tabindex="2"><img src="http://ouesp352x.bkt.clouddn.com/DaoCloud%E5%8A%A0%E9%80%9F%E5%99%A82.jpg" alt=""></figure>
+<pre><code class="language-bash">curl -sSL https://get.daocloud.io/daotools/set_mirror.sh | sh -s http://010e8490.m.daocloud.io #运行复制的命令
+docker version &gt;= 1.12
+{&quot;registry-mirrors&quot;: [&quot;http://010e8490.m.daocloud.io&quot;],}
+Success.
+You need to restart docker to take effect: sudo systemctl restart docker
+
+sudo systemctl restart docker #重启docker
+</code></pre>
+</li>
+</ul>
+<h3 id="查看挂载情况">查看挂载情况</h3>
+<pre><code class="language-bash">docker inspect container_name | grep Mounts -A 20
+&quot;Mounts&quot;: [
+            {
+                &quot;Type&quot;: &quot;bind&quot;,
+                &quot;Source&quot;: &quot;/var/lib/mysql&quot;,
+                &quot;Destination&quot;: &quot;/run/media/wade/archive/data&quot;,
+                &quot;Mode&quot;: &quot;rw&quot;,
+                &quot;RW&quot;: true,
+                &quot;Propagation&quot;: &quot;rprivate&quot;
+            },
+            {
+                &quot;Type&quot;: &quot;volume&quot;,
+                &quot;Name&quot;: &quot;24ec79325c0fb26df06bb277194e487ebe8ea6c58225571296a0b8dd5474f466&quot;,
+                &quot;Source&quot;: &quot;/var/lib/docker/volumes/24ec79325c0fb26df06bb277194e487ebe8ea6c58225571296a0b8dd5474f466/_data&quot;,
+                &quot;Destination&quot;: &quot;/var/lib/mysql&quot;,
+                &quot;Driver&quot;: &quot;local&quot;,
+                &quot;Mode&quot;: &quot;&quot;,
+                &quot;RW&quot;: true,
+                &quot;Propagation&quot;: &quot;&quot;
+            }
+        ],
+        &quot;Config&quot;: {
+</code></pre>
+<h3 id="安装mysql">安装mysql</h3>
+<pre><code class="language-bash">docker search mysql #查找mysql官方镜像
+
+docker pull mysql:5.6 #拉取镜像mysql5.6版本
+
+docker images #查看本地镜像
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+docker.io/mysql     5.6                 5f5ccdc8aedc        7 weeks ago         256 MB
+
+sudo docker run --name siot-mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=H9si0711 -v /run/media/wade/archive/master/etc/mysql:/ee/master/etc/mysql/my.cnf:/etc/mysql/my.cnf -v /run/media/wade/archive/master/data:/var/lib/mysql -d master/mysql #创建mysql容器, --name 容器名称 -v 挂载文件 /宿主机文件路径:/容器内文件路
+ca5dd632677a144e647b410dee29d96dc029352c614ab560fa22bfa614f09b7c
+
+docker exec -it test-mysql bash #进入mysql容器
+
+mysql -uroot -p123456 #启用mysql窗口,进入命令行
+
+status; #查看mysql状态信息
+--------------
+mysql  Ver 14.14 Distrib 5.6.40, for Linux (x86_64) using  EditLine wrapper
+
+Connection id:		1
+Current database:	
+Current user:		root@localhost
+SSL:			Not in use
+Current pager:		stdout
+Using outfile:		''
+Using delimiter:	;
+Server version:		5.6.40 MySQL Community Server (GPL)
+Protocol version:	10
+Connection:		Localhost via UNIX socket
+Server characterset:	latin1
+Db     characterset:	latin1
+Client characterset:	latin1
+Conn.  characterset:	latin1
+UNIX socket:		/var/run/mysqld/mysqld.sock
+Uptime:			1 min 57 sec
+
+Threads: 1  Questions: 5  Slow queries: 0  Opens: 67  Flush tables: 1  Open tables: 60  Queries per second avg: 0.042
+--------------
+
+quit; #退出mysql
+
+按住ctrl，再按p，再按q退出mysql容器
+
+</code></pre>
+<h3 id="使用dockerfile构建镜像">使用Dockerfile构建镜像</h3>
+<ul>
+<li>以mysql5.6为例，参考文档 <a href="https://www.jianshu.com/p/12c34395e76e">90后最有文采的码农</a></li>
+</ul>
+<pre><code class="language-bash">mkdir siot
+
+cd siot
+
+vi my.cnf #编辑mysql的配置文件，这里只是指定了数据的存储路径
+[mysqld]
+datadir=/var/lib/mysql
+#############################
+
+vi Dockerfile
+FROM mysql:5.6 #指定基础镜像
+
+COPY my.cnf /etc/mysql/ #将刚才编辑的配置文件拷贝到将要运行的容器中，&lt;源路径&gt;  &lt;目标路径&gt;
+
+EXPOSE 3306 #声明端口
+
+CMD [&quot;mysqld&quot;]
+#############################
+
+docker build -t siot/mysql . #不要忘记最后的“.”
+
+
+</code></pre>
+<ul>
+<li><a href="https://yeasy.gitbooks.io/docker_practice/image/build.html">Dockerfile详解</a></li>
+</ul>
+<h3 id="配置网络代理">配置网络代理</h3>
+<pre><code class="language-sh">mkdir -p /etc/systemd/system/docker.service.d # 为docker服务创建一个内嵌的systemd目录
+
+vi /etc/systemd/system/docker.service.d/http-proxy.conf
+[Service]
+Environment=&quot;HTTP_PROXY=http://[proxy-addr]:[proxy-port]/&quot; &quot;HTTPS_PROXY=https://[proxy-addr]:[proxy-port]/&quot; &quot;NO_PROXY=localhost,127.0.0.1,docker-registry.somecorporation.com&quot;
+
+systemctl daemon-reload
+
+systemctl restart docker
+
+systemctl show docker --property Environment # 检查变量是否加载
+Environment=HTTP_PROXY=http://172.18.29.121:3128/ HTTPS_PROXY=https://172.18.29.121:3128/ NO_PROXY=localhost,127.0.0.1,172.18.*.*,*.aliyuncs.com,mirrors.cloud.aliyuncs.com
+
+# 取消代理
+rm -rf /etc/systemd/system/docker.service.d/http-proxy.conf
+systemctl daemon-reload
+systemctl restart docker
+systemctl show docker --property Environment
+</code></pre>
+<h3 id="设置开机自启">设置开机自启</h3>
+<pre><code class="language-bash">docker update --restart=always 容器名称或ID
+</code></pre>
+<h3 id="问题解决">问题&amp;解决</h3>
+<h4 id="挂载宿主机已存在目录后在容器内对其进行操作报permission-denied">挂载宿主机已存在目录后，在容器内对其进行操作，报“Permission denied”</h4>
+<ul>
+<li>关闭selinux</li>
+</ul>
+<pre><code class="language-bash">setenforce 0 #临时关闭
+
+vi /etc/sysconfig/selinux #永久关闭
+SELINUX=disabled
+</code></pre>
+<ul>
+<li>以特权方式启动容器</li>
+</ul>
+<pre><code class="language-bash">docker run -it --privileged=true -v /test:/soft centos /bin/bash #指定--privileged参数
+</code></pre>
+<h4 id="启动容器时报错error-response-from-daemon-error-creating-overlay-mount-to-varlibdockeroverlay2">启动容器时报错：Error response from daemon: error creating overlay mount to /var/lib/docker/overlay2</h4>
+<ul>
+<li>这是因为用的overlay2文件系统，而系统默认只能识别overlay文件系统</li>
+</ul>
+<pre><code class="language-bash">systemctl stop docker #停掉docker服务
+
+rm -rf /var/lib/docker #注意会清掉docker images的镜像
+
+vi /etc/sysconfig/docker-storage #将文件里的overlay2改成overlay即可
+
+vi /etc/sysconfig/docker #去掉option后面的--selinux-enabled
+
+systemctl start docker #启动deocker即可
+</code></pre>
+
+          </div>
+        </div>
+
+        
+          <div class="next-post">
+            <a class="purple-link" href="https://clearcode1124.github.io/post/emq">
+              <h3 class="post-title">
+                下一篇：EMQ
+              </h3>
+            </a>
+          </div>
+          
+      </div>
+
+      
+
+      <div class="site-footer">
+  <div class="slogan">在最深的红尘里与你相遇</div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://clearcode1124.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+
+    </div>
+    <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>

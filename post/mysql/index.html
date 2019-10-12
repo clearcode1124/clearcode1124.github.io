@@ -1,0 +1,259 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>MySQL | CWD.</title>
+<meta name="description" content="在最深的红尘里与你相遇">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://clearcode1124.github.io/favicon.ico?v=1570890359457">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://clearcode1124.github.io/styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://clearcode1124.github.io">
+        <img class="avatar" src="https://clearcode1124.github.io/images/avatar.png?v=1570890359457" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://clearcode1124.github.io">
+        <h1 class="site-title">CWD.</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="menu purple-link">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="menu purple-link">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        <div class="post-detail">
+          
+          <h2 class="post-title">MySQL</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2019-10-12</span>
+            
+          </div>
+          <div class="post-content">
+            <p><strong>跟mysql相关的一些笔记</strong></p>
+<!-- more -->
+<h3 id="查看状态信息">查看状态信息</h3>
+<pre><code class="language-sql">mysql&gt; status;
+--------------
+mysql  Ver 14.14 Distrib 5.6.40, for Linux (x86_64) using  EditLine wrapper
+
+Connection id:		1
+Current database:	
+Current user:		root@localhost
+SSL:			Not in use
+Current pager:		stdout
+Using outfile:		''
+Using delimiter:	;
+Server version:		5.6.40 MySQL Community Server (GPL)
+Protocol version:	10
+Connection:		Localhost via UNIX socket
+Server characterset:	latin1
+Db     characterset:	latin1
+Client characterset:	latin1
+Conn.  characterset:	latin1
+UNIX socket:		/var/run/mysqld/mysqld.sock
+Uptime:			10 min 17 sec
+
+Threads: 1  Questions: 10  Slow queries: 0  Opens: 67  Flush tables: 1  Open tables: 60  Queries per second avg: 0.016
+--------------
+
+</code></pre>
+<h3 id="查看数据库物理文件存放位置">查看数据库物理文件存放位置</h3>
+<pre><code class="language-sql">mysql&gt; show global variables like &quot;%datadir%&quot;;
++---------------+------------+
+| Variable_name | Value      |
++---------------+------------+
+| datadir       | /usr/data/ |
++---------------+------------+
+1 row in set (0.00 sec)
+</code></pre>
+<h3 id="查看编码方式">查看编码方式</h3>
+<pre><code class="language-sql">mysql&gt; show variables like 'character%';
++--------------------------+----------------------------+
+| Variable_name            | Value                      |
++--------------------------+----------------------------+
+| character_set_client     | latin1                     |
+| character_set_connection | latin1                     |
+| character_set_database   | latin1                     |
+| character_set_filesystem | binary                     |
+| character_set_results    | latin1                     |
+| character_set_server     | latin1                     |
+| character_set_system     | utf8                       |
+| character_sets_dir       | /usr/share/mysql/charsets/ |
++--------------------------+----------------------------+
+8 rows in set (0.00 sec)
+</code></pre>
+<h3 id="查看版本">查看版本</h3>
+<pre><code class="language-sql">select version();
+</code></pre>
+<h3 id="查看数据库以及表的大小">查看数据库以及表的大小</h3>
+<pre><code class="language-sql"># 切换到information_schema数据库
+use `information_schema`;
+
+# 查看数据库的大小
+SELECT
+	concat( round( sum( data_length / 1024 / 1024 ), 2 ), 'MB' ) AS DATA 
+FROM
+TABLES 
+WHERE
+	table_schema = 'DB_NAME';
+
+# 查看表的大小
+SELECT
+	concat( round( sum( data_length / 1024 / 1024 ), 2 ), 'MB' ) AS DATA 
+FROM
+TABLES 
+WHERE
+	table_schema = 'DB_NAME' 
+	AND table_name = 'TABLE_NAME';
+</code></pre>
+<h3 id="时间">时间</h3>
+<h4 id="格式">格式</h4>
+<ul>
+<li>%S, %s 两位数字形式的秒（ 00,01, ..., 59）</li>
+<li>%I, %i 两位数字形式的分（ 00,01, ..., 59）</li>
+<li>%H 两位数字形式的小时，24 小时（00,01, ..., 23）</li>
+<li>%h 两位数字形式的小时，12 小时（01,02, ..., 12）</li>
+<li>%k 数字形式的小时，24 小时（0,1, ..., 23）</li>
+<li>%l 数字形式的小时，12 小时（1, 2, ..., 12）</li>
+<li>%T 24 小时的时间形式（hh:mm:ss）</li>
+<li>%r 12 小时的时间形式（hh:mm:ss AM 或hh:mm:ss PM）</li>
+<li>%p AM或PM</li>
+<li>%W 一周中每一天的名称（Sunday, Monday, ..., Saturday）</li>
+<li>%a 一周中每一天名称的缩写（Sun, Mon, ..., Sat）</li>
+<li>%d 两位数字表示月中的天数（00, 01,..., 31）</li>
+<li>%e 数字形式表示月中的天数（1, 2， ..., 31）</li>
+<li>%D 英文后缀表示月中的天数（1st, 2nd, 3rd,...）</li>
+<li>%w 以数字形式表示周中的天数（ 0 = Sunday, 1=Monday, ..., 6=Saturday）</li>
+<li>%j 以三位数字表示年中的天数（ 001, 002, ..., 366）</li>
+<li>%U 周（0, 1, 52），其中Sunday 为周中的第一天</li>
+<li>%u 周（0, 1, 52），其中Monday 为周中的第一天</li>
+<li>%M 月名（January, February, ..., December）</li>
+<li>%b 缩写的月名（ January, February,...., December）</li>
+<li>%m 两位数字表示的月份（01, 02, ..., 12）</li>
+<li>%c 数字表示的月份（1, 2, ...., 12）</li>
+<li>%Y 四位数字表示的年份</li>
+<li>%y 两位数字表示的年份</li>
+<li>%% 直接值“%”</li>
+</ul>
+<pre><code class="language-sql">DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 21 DAY),'%Y-%m-%d') # 格式化
+
+DATE_SUB(NOW(), INTERVAL 1 DAY) # 前一天
+
+DATE_ADD(NOW(), INTERVAL 1 DAY) # 后一天
+
+UNIX_TIMESTAMP(NOW()) # 转成时间戳
+
+FROM_UNIXTIME(UNIX_TIMESTAMP(NOW())) # 时间戳转成默认的时间格式：'%Y-%m-%d %H:%i:%s'
+</code></pre>
+
+          </div>
+        </div>
+
+        
+          <div class="next-post">
+            <a class="purple-link" href="https://clearcode1124.github.io/post/percona-toolkit">
+              <h3 class="post-title">
+                下一篇：Percona Toolkit
+              </h3>
+            </a>
+          </div>
+          
+      </div>
+
+      
+
+      <div class="site-footer">
+  <div class="slogan">在最深的红尘里与你相遇</div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://clearcode1124.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+
+    </div>
+    <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>

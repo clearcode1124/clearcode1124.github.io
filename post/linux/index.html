@@ -1,0 +1,621 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>Linux | CWD.</title>
+<meta name="description" content="在最深的红尘里与你相遇">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://clearcode1124.github.io/favicon.ico?v=1570890359457">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://clearcode1124.github.io/styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://clearcode1124.github.io">
+        <img class="avatar" src="https://clearcode1124.github.io/images/avatar.png?v=1570890359457" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://clearcode1124.github.io">
+        <h1 class="site-title">CWD.</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="menu purple-link">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="menu purple-link">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        <div class="post-detail">
+          
+          <h2 class="post-title">Linux</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2019-10-12</span>
+            
+          </div>
+          <div class="post-content">
+            <p><strong>跟linux相关的一些笔记</strong></p>
+<!-- more -->
+<h3 id="用户管理">用户管理</h3>
+<h4 id="新增">新增</h4>
+<pre><code class="language-bash">adduser kgl
+Adding user `kgl' ...
+Adding new group `kgl' (1001) ...
+Adding new user `kgl' (1001) with group `kgl' ...
+Creating home directory `/home/kgl' ...
+Copying files from `/etc/skel' ...
+Enter new UNIX password: &lt;== 输入密码
+Retype new UNIX password: &lt;== 确认密码 
+passwd: password updated successfully
+Changing the user information for kgl
+Enter the new value, or press ENTER for the default
+	Full Name []: &lt;== 回车
+	Room Number []: &lt;== 回车
+	Work Phone []: &lt;== 回车
+	Home Phone []: &lt;== 回车
+	Other []: &lt;== 回车
+Is the information correct? [Y/n] y
+
+</code></pre>
+<h4 id="添加sudo权限">添加sudo权限</h4>
+<pre><code class="language-bash">usermod -aG sudo kgl
+</code></pre>
+<h4 id="密钥登录">密钥登录</h4>
+<ul>
+<li>生成密钥对</li>
+</ul>
+<pre><code class="language-bash">ssh-keygen&lt;== 生成
+Generating public/private rsa key pair.
+Enter file in which to save the key (/home/kgl/.ssh/id_rsa): &lt;== 回车
+Created directory '/home/kgl/.ssh'.
+Enter passphrase (empty for no passphrase): &lt;== 回车
+Enter same passphrase again: &lt;== 回车
+Your identification has been saved in /home/kgl/.ssh/id_rsa.
+Your public key has been saved in /home/kgl/.ssh/id_rsa.pub.
+The key fingerprint is:
+SHA256:xd2DSlXACa1YI2rqEz2HyqlGHLFY9UKFW7qdxtDavkA kgl@iZwz92qfb6ao9koavdyhcfZ
+The key's randomart image is:
+
+</code></pre>
+<ul>
+<li>配置公钥到服务器</li>
+</ul>
+<pre><code class="language-bash">sudo vi authorized_keys&lt;== 在.ssh文件夹下生成authorized_keys文件，并把id_rsa.pub的内容复制进去
+sudo: unable to resolve host iZwz92qfb6ao9koavdyhcfZ
+[sudo] password for kgl: &lt;== 输入登录密码
+</code></pre>
+<ul>
+<li>
+<p>使用私钥登录</p>
+<ol>
+<li>
+<p>将id_rsa下载到本地</p>
+</li>
+<li>
+<p>将私钥导入客户端（这里用的是Xshell），就能够登录了</p>
+</li>
+</ol>
+</li>
+</ul>
+<figure data-type="image" tabindex="1"><img src="https://upload-images.jianshu.io/upload_images/8051284-3dadf12cb5f66575.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></figure>
+<h4 id="删除用户">删除用户</h4>
+<pre><code class="language-bash">userdel username
+</code></pre>
+<h3 id="查看端口情况">查看端口情况</h3>
+<h4 id="查看某个端口是否被占用">查看某个端口是否被占用</h4>
+<pre><code class="language-bash">lsof -i:端口号
+COMMAND     PID USER   FD   TYPE DEVICE SIZE/OFF NODE NAME
+docker-pr 21024 root    4u  IPv6  72930      0t0  TCP *:mysql (LISTEN)
+
+</code></pre>
+<h3 id="添加硬盘">添加硬盘</h3>
+<h4 id="查看硬盘列表">查看硬盘列表</h4>
+<pre><code class="language-bash">fdisk -l
+磁盘 /dev/sda：1000.2 GB, 1000204886016 字节，1953525168 个扇区
+Units = 扇区 of 1 * 512 = 512 bytes
+扇区大小(逻辑/物理)：512 字节 / 4096 字节
+I/O 大小(最小/最佳)：4096 字节 / 4096 字节
+磁盘标签类型：gpt
+Disk identifier: 7E96905D-3E7F-4DBE-BE3B-17FC8E132E91
+
+
+#         Start          End    Size  Type            Name
+ 1         2048       411647    200M  EFI System      EFI System Partition
+ 2       411648      2508799      1G  Microsoft basic 
+ 3      2508800   1953523711  930.3G  Linux LVM       
+
+磁盘 /dev/mapper/centos-root：53.7 GB, 53687091200 字节，104857600 个扇区
+Units = 扇区 of 1 * 512 = 512 bytes
+扇区大小(逻辑/物理)：512 字节 / 4096 字节
+I/O 大小(最小/最佳)：4096 字节 / 4096 字节
+
+
+磁盘 /dev/mapper/centos-swap：8187 MB, 8187281408 字节，15990784 个扇区
+Units = 扇区 of 1 * 512 = 512 bytes
+扇区大小(逻辑/物理)：512 字节 / 4096 字节
+I/O 大小(最小/最佳)：4096 字节 / 4096 字节
+
+
+磁盘 /dev/mapper/centos-home：937.0 GB, 937036873728 字节，1830150144 个扇区
+Units = 扇区 of 1 * 512 = 512 bytes
+扇区大小(逻辑/物理)：512 字节 / 4096 字节
+I/O 大小(最小/最佳)：4096 字节 / 4096 字节
+
+
+磁盘 /dev/sdd：1000.2 GB, 1000204886016 字节，1953525168 个扇区
+Units = 扇区 of 1 * 512 = 512 bytes
+扇区大小(逻辑/物理)：512 字节 / 512 字节
+I/O 大小(最小/最佳)：512 字节 / 512 字节
+磁盘标签类型：dos
+磁盘标识符：0xda26a80f
+
+   设备 Boot      Start         End      Blocks   Id  System
+/dev/sdd1         1000000  1953525167   976262584   83  Linux
+
+磁盘 /dev/sdc：1000.2 GB, 1000204886016 字节，1953525168 个扇区
+Units = 扇区 of 1 * 512 = 512 bytes
+扇区大小(逻辑/物理)：512 字节 / 512 字节
+I/O 大小(最小/最佳)：512 字节 / 512 字节
+磁盘标签类型：dos
+磁盘标识符：0xda26a80e
+
+   设备 Boot      Start         End      Blocks   Id  System
+/dev/sdc1         1000000  1953525167   976262584   83  Linux
+
+</code></pre>
+<h4 id="新建分区">新建分区</h4>
+<pre><code class="language-bash">fdisk /dev/sdd
+欢迎使用 fdisk (util-linux 2.23.2)。
+
+更改将停留在内存中，直到您决定将更改写入磁盘。
+使用写入命令前请三思。
+
+
+命令(输入 m 获取帮助)：n # 新建
+Partition type:
+   p   primary (0 primary, 0 extended, 4 free)
+   e   extended
+Select (default p): p # p -&gt; 主分区，e -&gt; 扩展分区
+分区号 (1-4，默认 1)：1
+起始 扇区 (2048-1953525167，默认为 2048)：1000000
+Last 扇区, +扇区 or +size{K,M,G} (1000000-1953525167，默认为 1953525167)：
+将使用默认值 1953525167
+分区 1 已设置为 Linux 类型，大小设为 931 GiB
+
+命令(输入 m 获取帮助)：w # 保存并退出
+The partition table has been altered!
+
+Calling ioctl() to re-read partition table.
+正在同步磁盘。
+
+</code></pre>
+<ul>
+<li><a href="http://www.runoob.com/linux/linux-comm-fdisk.html">fdisk命令</a></li>
+</ul>
+<h4 id="格式化分区">格式化分区</h4>
+<pre><code class="language-bash">mkfs.ext4 /dev/sdd1 # 格式化为ext4的文件系统，还有ext2、ext3等
+mke2fs 1.42.9 (28-Dec-2013)
+文件系统标签=
+OS type: Linux
+块大小=4096 (log=2)
+分块大小=4096 (log=2)
+Stride=0 blocks, Stripe width=0 blocks
+61022208 inodes, 244065646 blocks
+12203282 blocks (5.00%) reserved for the super user
+第一个数据块=0
+Maximum filesystem blocks=2392850432
+7449 block groups
+32768 blocks per group, 32768 fragments per group
+8192 inodes per group
+Superblock backups stored on blocks: 
+	32768, 98304, 163840, 229376, 294912, 819200, 884736, 1605632, 2654208, 
+	4096000, 7962624, 11239424, 20480000, 23887872, 71663616, 78675968, 
+	102400000, 214990848
+
+Allocating group tables: 完成                            
+正在写入inode表: 完成                            
+Creating journal (32768 blocks): 完成
+Writing superblocks and filesystem accounting information: 完成
+</code></pre>
+<h4 id="创建挂载点实际就是新建一个文件夹并挂载">创建挂载点（实际就是新建一个文件夹），并挂载</h4>
+<pre><code class="language-bash">mkdir archive1 # 文件名随意，不过要注意路径，否则会报挂载点不存在
+mount /dev/sdd1 /dev/archive1 # 挂载
+vi /etc/fstab # 设置新硬盘开机自动挂载
+# 设备名称               挂载点                  文件系统 挂载选项      dump fsck
+/dev/sdb2               /dev/archive2/          ext4    defaults        0 0
+</code></pre>
+<ul>
+<li><a href="http://blog.51cto.com/lspgyy/1297432">fstab文件详解</a></li>
+</ul>
+<h4 id="查看硬盘挂载情况">查看硬盘挂载情况</h4>
+<pre><code class="language-bash">df -h
+文件系统                 容量  已用  可用 已用% 挂载点
+/dev/mapper/centos-root   50G  955M   50G    2% /
+devtmpfs                 3.8G     0  3.8G    0% /dev
+tmpfs                    3.8G     0  3.8G    0% /dev/shm
+tmpfs                    3.8G  8.7M  3.8G    1% /run
+tmpfs                    3.8G     0  3.8G    0% /sys/fs/cgroup
+/dev/sda2               1014M  135M  880M   14% /boot
+/dev/sda1                200M  9.8M  191M    5% /boot/efi
+/dev/mapper/centos-home  873G   33M  873G    1% /home
+tmpfs                    761M     0  761M    0% /run/user/1000
+tmpfs                    761M     0  761M    0% /run/user/0
+/dev/sdb1                917G   77M  870G    1% /dev/archive1
+/dev/sdd1                917G   77M  870G    1% /dev/archive2
+</code></pre>
+<h3 id="配置raid1">配置RAID1</h3>
+<h4 id="参考自tessykandy的博客"><a href="http://tessykandy.iteye.com/blog/2233201">参考自tessykandy的博客</a></h4>
+<h4 id="查看磁盘及磁盘分区">查看磁盘及磁盘分区</h4>
+<pre><code class="language-bash">cat /proc/partitions 
+major minor  #blocks  name
+
+   8        0  976762584 sda
+   8        1     204800 sda1
+   8        2    1048576 sda2
+   8        3  975507456 sda3
+  11        0    1048575 sr0
+ 253        0   52428800 dm-0
+ 253        1    7995392 dm-1
+ 253        2  915075072 dm-2
+   8       16  976762584 sdb
+   8       17  976262584 sdb1
+   8       64  976762584 sde
+   8       65  976262584 sde1
+</code></pre>
+<h4 id="将sdb和sde组成raid1">将sdb和sde组成RAID1</h4>
+<ul>
+<li>删除磁盘的所有分区</li>
+</ul>
+<pre><code class="language-bash">fdisk /dev/sdb
+欢迎使用 fdisk (util-linux 2.23.2)。
+
+更改将停留在内存中，直到您决定将更改写入磁盘。
+使用写入命令前请三思。
+
+
+命令(输入 m 获取帮助)：d # 删除分区
+Partition number (1-4): # 如果只有一个分区则直接删除，否则需要选择对应分区
+</code></pre>
+<ul>
+<li>创建新的raid分区</li>
+</ul>
+<pre><code class="language-bash">fdisk /dev/sdb
+欢迎使用 fdisk (util-linux 2.23.2)。
+
+更改将停留在内存中，直到您决定将更改写入磁盘。
+使用写入命令前请三思。
+
+
+命令(输入 m 获取帮助)：n
+# 这里也是先创建一个普通分区，不再详细介绍，创建完成后，先别w保存退出，还要指定分区类型
+Command (m for help): t # 指定分区类型
+Hex code (type L to list codes):fd # 指定为Linux raid autodetect
+命令(输入 m 获取帮助)：p # 查看分区信息
+
+磁盘 /dev/sdb：1000.2 GB, 1000204886016 字节，1953525168 个扇区
+Units = 扇区 of 1 * 512 = 512 bytes
+扇区大小(逻辑/物理)：512 字节 / 512 字节
+I/O 大小(最小/最佳)：512 字节 / 512 字节
+磁盘标签类型：dos
+磁盘标识符：0xda26a80e
+
+   设备 Boot      Start         End      Blocks   Id  System
+/dev/sdb1         1000000  1953525167   976262584   fd  Linux raid autodetect
+</code></pre>
+<p>对sde也做相同的操作，最终分区表如下</p>
+<pre><code class="language-bash">cat /proc/partitions 
+major minor  #blocks  name
+
+   8        0  976762584 sda
+   8        1     204800 sda1
+   8        2    1048576 sda2
+   8        3  975507456 sda3
+  11        0    1048575 sr0
+ 253        0   52428800 dm-0
+ 253        1    7995392 dm-1
+ 253        2  915075072 dm-2
+   8       16  976762584 sdb
+   8       17  976262584 sdb1
+   8       32  976762584 sdc
+   8       33  976262584 sdc1
+</code></pre>
+<ul>
+<li>创建RAID1</li>
+</ul>
+<pre><code class="language-bash">mdadm -C /dev/md1 -ayes -l1 -n2 /dev/sd[b,e]1
+#……
+Continue creating array? y
+mdadm: array /dev/md1 started. # 出现这个表示成功了
+</code></pre>
+<p><a href="https://blog.csdn.net/liumangxiong/article/details/8970781">mdadm命令详解</a></p>
+<ul>
+<li>查看raid1状态</li>
+</ul>
+<pre><code class="language-bash">cat /proc/mdstat 
+Personalities : [raid1] 
+md1 : active raid1 sdc1[1] sdb1[0]
+      976629440 blocks super 1.2 [2/2] [UU]
+      [&gt;....................]  resync =  0.0% (76032/976629440) finish=3638.3min speed=4472K/sec
+      bitmap: 8/8 pages [32KB], 65536KB chunk
+
+unused devices: &lt;none&gt;
+</code></pre>
+<ul>
+<li>查看分区表</li>
+</ul>
+<pre><code class="language-bash">cat /proc/partitions 
+major minor  #blocks  name
+
+   8        0  976762584 sda
+   8        1     204800 sda1
+   8        2    1048576 sda2
+   8        3  975507456 sda3
+  11        0    1048575 sr0
+ 253        0   52428800 dm-0
+ 253        1    7995392 dm-1
+ 253        2  915075072 dm-2
+   8       16  976762584 sdb
+   8       17  976761560 sdb1
+</code></pre>
+<ul>
+<li>修改配置文件/etc/mdadm.conf</li>
+</ul>
+<pre><code class="language-bash">echo DEVICE /dev/sd{b,c}1 &gt;&gt; /etc/mdadm.conf  
+mdadm -Ds &gt;&gt; /etc/mdadm.conf
+# 结果如下
+cat /etc/mdadm.conf 
+DEVICE /dev/sdb1 /dev/sde1
+ARRAY /dev/md1 metadata=1.2 name=localhost.localdomain:1 UUID=320bd264:ec71c79d:7b0df320:183ad3bc
+</code></pre>
+<ul>
+<li>格式化raid</li>
+</ul>
+<pre><code class="language-bash">mkfs.ext4 /dev/md1
+# ……
+Allocating group tables: 完成                            
+正在写入inode表: 完成                            
+Creating journal (32768 blocks): 完成
+Writing superblocks and filesystem accounting information: 完成 # 到这里就说明成功了
+</code></pre>
+<ul>
+<li>建立挂载点并挂载</li>
+</ul>
+<pre><code class="language-bash">mkdir archive
+mount /dev/md1 /dev/archive
+</code></pre>
+<ul>
+<li>查看挂载情况</li>
+</ul>
+<pre><code class="language-bash">df -h
+文件系统                 容量  已用  可用 已用% 挂载点
+/dev/mapper/centos-root   50G  958M   50G    2% /
+devtmpfs                 3.8G     0  3.8G    0% /dev
+tmpfs                    3.8G     0  3.8G    0% /dev/shm
+tmpfs                    3.8G   49M  3.7G    2% /run
+tmpfs                    3.8G     0  3.8G    0% /sys/fs/cgroup
+/dev/sda2               1014M  135M  880M   14% /boot
+/dev/sda1                200M  9.8M  191M    5% /boot/efi
+/dev/mapper/centos-home  873G   33M  873G    1% /home
+tmpfs                    761M     0  761M    0% /run/user/1000
+tmpfs                    761M     0  761M    0% /run/user/0
+/dev/md1                 917G   77M  870G    1% /dev/archive
+</code></pre>
+<ul>
+<li>开机自动挂载</li>
+</ul>
+<pre><code class="language-bash">vi /etc/fstab
+/dev/md1                /dev/archive/           ext4    defaults        0 0
+</code></pre>
+<h4 id="取消raid">取消RAID</h4>
+<pre><code class="language-bash">umount /dev/archive #取消挂载
+
+mdadm --stop /dev/md1 #停止RAID
+
+mdadm --remove /dev/md1 #删除RAID
+</code></pre>
+<h3 id="设置静态ip">设置静态IP</h3>
+<pre><code class="language-bash">vi /etc/sysconfig/network-scripts/ifcfg-eno1
+
+TYPE=Ethernet
+BOOTPROTO=static                  #使用static配置
+DEFROUTE=yes
+PEERDNS=yes
+PEERROUTES=yes
+IPV4_FAILURE_FATAL=no
+IPV6INIT=yes
+IPV6_AUTOCONF=yes
+IPV6_DEFROUTE=yes
+IPV6_PEERDNS=yes
+IPV6_PEERROUTES=yes
+IPV6_FAILURE_FATAL=no
+NAME=eno1
+UUID=ea4bbbab-1804-46df-b8f9-1451e5a710fc
+DEVICE=eno1
+ONBOOT=yes                        #开机启用本配置
+IPADDR=192.168.1.45               #静态IP
+GATEWAY=192.168.1.1               #默认网关
+NETMASK=255.255.255.0             #子网掩码
+DNS1=192.168.1.1                  #DNS配置
+
+systemctl restart network.service #重启网络服务
+</code></pre>
+<h3 id="vimvi">Vim/vi</h3>
+<pre><code class="language-bash">u #退出Insert模式后，输入u进行回退
+
+ctrl + r #与u相反
+
+:set nu #显示行号
+
+:set nu! #不显示行号
+
+:100 #跳到第100行
+
+:/关键字 #查找关键字，n -&gt; 向下查找，N -&gt; 向上查找
+
+:s/被替换的内容/要替换的内容 #替换光标所在行的第一个匹配内容
+
+:1,10d #删除1-10行
+</code></pre>
+<h3 id="修改主机名">修改主机名</h3>
+<pre><code class="language-bash">vi /etc/hostname
+</code></pre>
+<h3 id="关机-重启">关机、重启</h3>
+<pre><code class="language-bash">shutdown –help # 可以查看shutdown命令如何使用，当然也可以使用man shutdown命令。
+
+shutdown -h now # 现在立即关机
+
+shutdown -r now # 现在立即重启
+
+shutdown -r +3 # 三分钟后重启
+
+shutdown -h +3 # “The System will shutdown after 3 minutes” 提示使用者将在三分钟后关机
+
+shutdown -r 20:23 # 在20：23时将重启计算机
+
+shutdown -r 20:23 &amp; # 可以将在20：23时重启的任务放到后台去，用户可以继续操作终端
+</code></pre>
+<h3 id="防火墙">防火墙</h3>
+<pre><code class="language-bash">firewall-cmd --state                           ##查看防火墙状态，是否是running
+
+firewall-cmd --reload                          ##重新载入配置，比如添加规则之后，需要执行此命令
+
+firewall-cmd --get-zones                       ##列出支持的zone
+
+firewall-cmd --get-services                    ##列出支持的服务，在列表中的服务是放行的
+
+firewall-cmd --query-service ftp               ##查看ftp服务是否支持，返回yes或者no
+
+firewall-cmd --add-service=ftp                 ##临时开放ftp服务
+
+firewall-cmd --add-service=ftp --permanent     ##永久开放ftp服务
+
+firewall-cmd --remove-service=ftp --permanent  ##永久移除ftp服务
+
+firewall-cmd --add-port=80/tcp --permanent     ##永久添加80端口 
+
+iptables -L -n                                 ##查看规则，这个命令是和iptables的相同的
+
+man firewall-cmd                               ##查看帮助
+
+systemctl stop firewalld.service               ##停止
+
+systemctl disable firewalld.service            ##禁止开机启动
+</code></pre>
+<h3 id="安装openjdk-8">安装openJDK 8</h3>
+<ul>
+<li>centOS</li>
+</ul>
+<pre><code class="language-bash">yum install java-1.8.0-openjdk java-1.8.0-openjdk-devel
+</code></pre>
+<ul>
+<li>ubuntu</li>
+</ul>
+<pre><code class="language-bash">apt-get install openjdk-8-jdk
+</code></pre>
+
+          </div>
+        </div>
+
+        
+          <div class="next-post">
+            <a class="purple-link" href="https://clearcode1124.github.io/post/maven">
+              <h3 class="post-title">
+                下一篇：Maven
+              </h3>
+            </a>
+          </div>
+          
+      </div>
+
+      
+
+      <div class="site-footer">
+  <div class="slogan">在最深的红尘里与你相遇</div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://clearcode1124.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+
+    </div>
+    <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>

@@ -1,9 +1,11 @@
+
+<!DOCTYPE html>
 <html>
   <head>
     
 <meta charset="utf-8" >
 
-<title>CWD.</title>
+<title>Nutz | CWD.</title>
 <meta name="description" content="在最深的红尘里与你相遇">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -75,17 +77,64 @@
 </transition>
 
 
-        <div class="content-container">
+      <div class="content-container">
+        <div class="post-detail">
           
-          <div class="tags-container">
-            
-              <a class="tag" href="https://clearcode1124.github.io/tag/suQE0Uz7H">Gridea</a>
+          <h2 class="post-title">Nutz</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2019-10-12</span>
             
           </div>
+          <div class="post-content">
+            <p><strong>跟Nutz相关的一些笔记</strong></p>
+<!-- more -->
+<h2 id="自定义sql-拼接查询条件-分页">自定义Sql + 拼接查询条件 + 分页</h2>
+<pre><code class="language-java">@Override
+  public Pagination&lt;SnAfterSalesLog&gt; pagiByCondition(int pageNo, int pageSize, String snHex) {
+    // 获取自定义sql语句
+    Sql sql = getQueryRecordSqlByKey(SqlKey.LIST_ALL_WITH_SNBURNERTIME_PRODUCTNUMBER);
+    // 默认查询条件
+    Cnd conditionParam = Cnd.where(&quot;t.deleted_at&quot;, &quot;=&quot;, 0);
+    Cnd cndForCount = createDefaultQueryCondition();
+    if (StringUtils.isNoneBlank(snHex)) {
+      int sn = 0;
+      try {
+        sn = Integer.parseInt(snHex, 16);
+      } catch (Exception e) {
+        throw IgnisException.clientError(&quot;SN号转换错误&quot;);
+      }
+      // 设置并拼接查询条件
+      conditionParam.and(&quot;t.sn&quot;, &quot;=&quot;, sn);
+      cndForCount.and(Field.SN, &quot;=&quot;, sn);
+      sql.setCondition(conditionParam);
+    }
+    // 设置分页
+    sql.setPager(new Pager(pageNo, pageSize));
+    List&lt;SnAfterSalesLog&gt; snAfterSalesLogs = query(sql, SnAfterSalesLog.class);
+    Pagination&lt;SnAfterSalesLog&gt; pagination = new Pagination&lt;&gt;(pageNo, pageSize);
+    pagination.setRecordCount(base().count(cndForCount));
+    pagination.setRecords(snAfterSalesLogs);
+    return pagination;
+  }
+</code></pre>
 
+          </div>
         </div>
 
-        <div class="site-footer">
+        
+          <div class="next-post">
+            <a class="purple-link" href="https://clearcode1124.github.io/post/mysql">
+              <h3 class="post-title">
+                下一篇：MySQL
+              </h3>
+            </a>
+          </div>
+          
+      </div>
+
+      
+
+      <div class="site-footer">
   <div class="slogan">在最深的红尘里与你相遇</div>
   <div class="social-container">
     
@@ -104,8 +153,8 @@
 </div>
 
 
-      </div>
-      <script type="application/javascript">
+    </div>
+    <script type="application/javascript">
 
 hljs.initHighlightingOnLoad()
 
@@ -121,6 +170,5 @@ var app = new Vue({
 
 
 
-    </div>
   </body>
 </html>

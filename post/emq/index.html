@@ -1,9 +1,11 @@
+
+<!DOCTYPE html>
 <html>
   <head>
     
 <meta charset="utf-8" >
 
-<title>CWD.</title>
+<title>EMQ | CWD.</title>
 <meta name="description" content="在最深的红尘里与你相遇">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -75,17 +77,79 @@
 </transition>
 
 
-        <div class="content-container">
+      <div class="content-container">
+        <div class="post-detail">
           
-          <div class="tags-container">
-            
-              <a class="tag" href="https://clearcode1124.github.io/tag/suQE0Uz7H">Gridea</a>
+          <h2 class="post-title">EMQ</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2019-10-12</span>
             
           </div>
+          <div class="post-content">
+            <p><strong>5G 时代，万物互联消息引擎</strong></p>
+<!-- more -->
+<h3 id="安装erlang">安装erlang</h3>
+<ul>
+<li>
+<p>参考<a href="http://bbs.qcloud.com/thread-9769-1-1.html">链接</a></p>
+</li>
+<li>
+<p>官网<a href="https://www.erlang.org/downloads/19.0">下载</a>源码，然后将压缩包上传到服务器</p>
+</li>
+</ul>
+<pre><code class="language-bash">#安装依赖的环境
+yum install gcc
 
+yum install perl
+
+yum install ncurses-devel
+
+yum install unixODBC unixODBC-devel
+
+yum install gcc-c++ 
+
+yum install openssl-devel
+
+tar -zvxf otp_src_19.0.tar.gz #解压
+
+cd otp_src_19.0.tar.gz
+
+./configure --prefix=/usr/local/erlang --without-javac #配置，不用java编译，所以去掉java避免错误
+*********************************************************************
+**********************  APPLICATIONS DISABLED  **********************
+*********************************************************************
+jinterface     : Java compiler disabled by user
+*********************************************************************
+
+make &amp;&amp; make install
+
+erl #如果安装没报错，输入erl进入erlang的命令模式，就成功了，输入crypto:start(). ，提示ok，大功告成！！！
+Erlang/OTP 19 [erts-8.0] [source] [64-bit] [async-threads:10] [kernel-poll:false]
+
+Eshell V8.0  (abort with ^G)
+1&gt; crypto:start().
+ok
+2&gt;
+
+</code></pre>
+
+          </div>
         </div>
 
-        <div class="site-footer">
+        
+          <div class="next-post">
+            <a class="purple-link" href="https://clearcode1124.github.io/post/git">
+              <h3 class="post-title">
+                下一篇：Git
+              </h3>
+            </a>
+          </div>
+          
+      </div>
+
+      
+
+      <div class="site-footer">
   <div class="slogan">在最深的红尘里与你相遇</div>
   <div class="social-container">
     
@@ -104,8 +168,8 @@
 </div>
 
 
-      </div>
-      <script type="application/javascript">
+    </div>
+    <script type="application/javascript">
 
 hljs.initHighlightingOnLoad()
 
@@ -121,6 +185,5 @@ var app = new Vue({
 
 
 
-    </div>
   </body>
 </html>

@@ -5,7 +5,7 @@
     
 <meta charset="utf-8" >
 
-<title>关于 | CWD.</title>
+<title>Java | CWD.</title>
 <meta name="description" content="在最深的红尘里与你相遇">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -80,24 +80,89 @@
       <div class="content-container">
         <div class="post-detail">
           
-          <h2 class="post-title">关于</h2>
+          <h2 class="post-title">Java</h2>
           <div class="post-info post-detail-info">
-            <span><i class="icon-calendar-outline"></i> 2019-01-25</span>
+            <span><i class="icon-calendar-outline"></i> 2019-10-12</span>
             
           </div>
           <div class="post-content">
-            <blockquote>
-<p>欢迎来到我的小站呀，很高兴遇见你！🤝</p>
-</blockquote>
-<h2 id="关于本站">🏠 关于本站</h2>
-<h2 id="博主是谁">👨‍💻 博主是谁</h2>
-<h2 id="兴趣爱好">⛹ 兴趣爱好</h2>
-<h2 id="联系我呀">📬 联系我呀</h2>
+            <p><strong>跟Java相关的一些笔记</strong></p>
+<!-- more -->
+<h2 id="时间格式">时间格式</h2>
+<ul>
+<li>
+<p>yyyy-MM-dd HH:mm:ss.ms</p>
+<p>2018-06-08 15:49:00.490</p>
+</li>
+<li>
+<p>yyyy年MM月dd日 HH:mm:ss.ms</p>
+<p>2018年06月08日 15:53:15.5315</p>
+</li>
+<li>
+<p>Y年M月d日 hⓂ️s.ms</p>
+<p>2018年6月8日 3:55:54.5554</p>
+</li>
+</ul>
+<h2 id="数组-list-map互相转换">数组、List、Map互相转换</h2>
+<pre><code class="language-java">String[] sArr = {&quot;1&quot;, &quot;2&quot;};
+
+// 转成list
+List&lt;String&gt; sList = Arrays.stream(sArr).collect(Collectors.toList());
+
+// 转换成Integr的list
+List&lt;Integer&gt; iList = Arrays.stream(sArr).map(Integer::parseInt).collect(Collectors.toList());
+
+// 转成map，key和value都为数组的值
+Map&lt;String, String&gt; sMap = Arrays.stream(sArr).collect(Collectors.toMap(s -&gt; s, s -&gt; s));
+
+// list转数组
+String[] sArr2 = sList.stream().toArray(String[]::new);
+
+// String的list转Integer的数组
+Integer[] iArr = sList.stream().map(Integer::parseInt).toArray(Integer[]::new);
+
+// list转map，key和value都为list的值
+Map&lt;String, String&gt; sMap2 = sList.stream().collect(Collectors.toMap(s -&gt; s, s -&gt; s));
+
+// map的value转list
+List&lt;String&gt; sList3 = sMap2.values().stream().collect(Collectors.toList());
+
+// map的value转数组
+String[] sArr3 = sMap2.values().stream().toArray(String[]::new);
+</code></pre>
+<h2 id="排序">排序</h2>
+<pre><code class="language-java">List&lt;SubSystem&gt; subSystems = super.listAll();
+
+// 根据SubSystem的id来进行排序，reversed()表示反向排序，否则就是正向排序
+Collections.sort(subSystems, Comparator.comparing(SubSystem::getId).reversed());
+
+// 更复杂的排序，例如：如果SubSystem的host相同，就根据id来排序
+Comparator&lt;SubSystem&gt; comparator = (s1,s2) -&gt; {
+      if (Objects.equal(s1.getHost(), s2.getHost())) {
+        return Long.compare(s1.getId(), s2.getId());
+      }
+      return s1.getHost().compareTo(s2.getHost());
+    };
+    
+Collections.sort(subSystems, comparator.reversed());
+</code></pre>
+<h2 id="去重">去重</h2>
+<pre><code class="language-java">list.stream().distinct()
+
+</code></pre>
 
           </div>
         </div>
 
         
+          <div class="next-post">
+            <a class="purple-link" href="https://clearcode1124.github.io/post/linux">
+              <h3 class="post-title">
+                下一篇：Linux
+              </h3>
+            </a>
+          </div>
+          
       </div>
 
       

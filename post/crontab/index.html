@@ -1,9 +1,11 @@
+
+<!DOCTYPE html>
 <html>
   <head>
     
 <meta charset="utf-8" >
 
-<title>CWD.</title>
+<title>Crontab | CWD.</title>
 <meta name="description" content="在最深的红尘里与你相遇">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -75,17 +77,60 @@
 </transition>
 
 
-        <div class="content-container">
+      <div class="content-container">
+        <div class="post-detail">
           
-          <div class="tags-container">
-            
-              <a class="tag" href="https://clearcode1124.github.io/tag/suQE0Uz7H">Gridea</a>
+          <h2 class="post-title">Crontab</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2019-10-12</span>
             
           </div>
+          <div class="post-content">
+            <p><strong>关于crontab的一些笔记</strong></p>
+<!-- more -->
+<h3 id="安装">安装</h3>
+<pre><code class="language-bash">yum install crontabs
 
+systemctl start crond #启动
+
+systemctl status crond #查看状态
+</code></pre>
+<h3 id="使用">使用</h3>
+<pre><code class="language-bash">crontab -e #进入vi编辑，为当前用户创建定时任务
+0 8 * * * /home/wade/test.sh #每天的8:00执行test.sh脚本，前面的是cron表达式：分（0~59） 时（0~23） 日（1~31） 月（1~12） 周（0~6，0表示星期天）
+
+crontab -l #查看任务列表
+
+crontab -r #删除该用户的所有任务
+
+cat /var/spool/mail/用户名 #查看日志
+
+</code></pre>
+<ul>
+<li>注意：执行的脚本要带上 #!/bin/bash、source /etc/profile否则可能会有奇奇怪怪的报错，如下：</li>
+</ul>
+<pre><code class="language-bash">#!/bin/bash
+source /etc/profile #加载环境变量配置，防止找不到pt-archiver命令
+pt-archiver --source h=i.creekspring.com,P=13326,u=root,p=123456,D=solariot,t=solar_mote --dest h=192.168.0.103,P=3306,u=root,p=H9si0711,D=solariot_archive,t=solar_mote --where 'id&gt;=1' --no-delete --charset=UTF8
+</code></pre>
+
+          </div>
         </div>
 
-        <div class="site-footer">
+        
+          <div class="next-post">
+            <a class="purple-link" href="https://clearcode1124.github.io/post/docker">
+              <h3 class="post-title">
+                下一篇：Docker
+              </h3>
+            </a>
+          </div>
+          
+      </div>
+
+      
+
+      <div class="site-footer">
   <div class="slogan">在最深的红尘里与你相遇</div>
   <div class="social-container">
     
@@ -104,8 +149,8 @@
 </div>
 
 
-      </div>
-      <script type="application/javascript">
+    </div>
+    <script type="application/javascript">
 
 hljs.initHighlightingOnLoad()
 
@@ -121,6 +166,5 @@ var app = new Vue({
 
 
 
-    </div>
   </body>
 </html>

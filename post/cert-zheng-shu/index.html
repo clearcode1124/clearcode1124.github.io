@@ -1,9 +1,11 @@
+
+<!DOCTYPE html>
 <html>
   <head>
     
 <meta charset="utf-8" >
 
-<title>CWD.</title>
+<title>Cert证书 | CWD.</title>
 <meta name="description" content="在最深的红尘里与你相遇">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -75,17 +77,79 @@
 </transition>
 
 
-        <div class="content-container">
+      <div class="content-container">
+        <div class="post-detail">
           
-          <div class="tags-container">
-            
-              <a class="tag" href="https://clearcode1124.github.io/tag/suQE0Uz7H">Gridea</a>
+          <h2 class="post-title">Cert证书</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2019-10-12</span>
             
           </div>
+          <div class="post-content">
+            <p><strong>关于cert证书的一些笔记</strong></p>
+<!-- more -->
+<h3 id="基本使用">基本使用</h3>
+<ul>
+<li>
+<p>genkey(生成key)</p>
+</li>
+<li>
+<p>alias server(别名)</p>
+</li>
+<li>
+<p>keypass 123456(别名密码)</p>
+</li>
+<li>
+<p>keyalg RSA(算法)</p>
+</li>
+<li>
+<p>keysize 1024(密钥长度)</p>
+</li>
+<li>
+<p>validity 3650(有效期，单位天)</p>
+</li>
+<li>
+<p>keystore server.keystore(指定生成证书的位置和证书名称)</p>
+</li>
+<li>
+<p>storepass 123456(获取keystore信息的密码)</p>
+</li>
+<li>
+<p>storetype PKCS12(生成的类型)</p>
+</li>
+</ul>
+<pre><code class="language-bash">keytool -genkey -alias server -keypass 123456 -keyalg RSA -keysize 1024 -validity 3650 -keystore D:/keys/server.keystore -storepass 123456
 
+# 生成pkcs12类型的
+keytool -genkey -alias client -keypass 123456 -keyalg RSA -keysize 1024 -validity 365 -storetype PKCS12 -keystore client.p12 -storepass 123456
+
+# 把pkcs12的导出成cer格式的
+keytool -export -alias client -keystore client.p12 -storetype PKCS12 -keypass 123456 -file client.cer
+
+#将证书导入cacerts 证书库里面
+keytool -import -alias cacert -keystore cacerts -file ./cacert.crt
+
+#将证书从cacerts 证书库里面删除
+keytool -delete -alias cacert -keystore ./cacerts -storepass changeit
+</code></pre>
+
+          </div>
         </div>
 
-        <div class="site-footer">
+        
+          <div class="next-post">
+            <a class="purple-link" href="https://clearcode1124.github.io/post/crontab">
+              <h3 class="post-title">
+                下一篇：Crontab
+              </h3>
+            </a>
+          </div>
+          
+      </div>
+
+      
+
+      <div class="site-footer">
   <div class="slogan">在最深的红尘里与你相遇</div>
   <div class="social-container">
     
@@ -104,8 +168,8 @@
 </div>
 
 
-      </div>
-      <script type="application/javascript">
+    </div>
+    <script type="application/javascript">
 
 hljs.initHighlightingOnLoad()
 
@@ -121,6 +185,5 @@ var app = new Vue({
 
 
 
-    </div>
   </body>
 </html>

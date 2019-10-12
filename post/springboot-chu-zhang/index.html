@@ -5,7 +5,7 @@
     
 <meta charset="utf-8" >
 
-<title>关于 | CWD.</title>
+<title>SpringBoot初章 | CWD.</title>
 <meta name="description" content="在最深的红尘里与你相遇">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -80,24 +80,80 @@
       <div class="content-container">
         <div class="post-detail">
           
-          <h2 class="post-title">关于</h2>
+          <h2 class="post-title">SpringBoot初章</h2>
           <div class="post-info post-detail-info">
-            <span><i class="icon-calendar-outline"></i> 2019-01-25</span>
+            <span><i class="icon-calendar-outline"></i> 2019-10-12</span>
             
           </div>
           <div class="post-content">
-            <blockquote>
-<p>欢迎来到我的小站呀，很高兴遇见你！🤝</p>
-</blockquote>
-<h2 id="关于本站">🏠 关于本站</h2>
-<h2 id="博主是谁">👨‍💻 博主是谁</h2>
-<h2 id="兴趣爱好">⛹ 兴趣爱好</h2>
-<h2 id="联系我呀">📬 联系我呀</h2>
+            <p><strong>春天的靴子</strong></p>
+<!-- more -->
+<h3 id="基本骨架">基本骨架</h3>
+<h4 id="直接用-spring-initializr生成">直接用 <a href="https://start.spring.io/">Spring Initializr</a>生成</h4>
+<ul>
+<li>Spring Initializr 界面</li>
+</ul>
+<figure data-type="image" tabindex="1"><img src="http://images.clearcode.top/d9b76f0dfde52bfbd2329856bd1042b.png" alt="d9b76f0dfde52bfbd2329856bd1042b.png"></figure>
+<ul>
+<li>项目结构</li>
+</ul>
+<figure data-type="image" tabindex="2"><img src="http://images.clearcode.top/29166c99e6d3ae0c504472c647d0484.png" alt="29166c99e6d3ae0c504472c647d0484.png"></figure>
+<ul>
+<li>加点料</li>
+</ul>
+<figure data-type="image" tabindex="3"><img src="http://images.clearcode.top/d0f65f62863d2dc474fef7e2dfdb446.png" alt="d0f65f62863d2dc474fef7e2dfdb446.png"></figure>
+<pre><code class="language-java">package com.wade.demo.web;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping(&quot;/api/v1/hellos&quot;)
+public class HelloController {
+
+	@GetMapping(&quot;&quot;)
+	public String say() {
+		return &quot;Hello World!&quot;;
+	}
+}
+</code></pre>
+<ul>
+<li>运行项目</li>
+</ul>
+<figure data-type="image" tabindex="4"><img src="http://images.clearcode.top/a72446f6b86705f23fa07d1cbae28bd.png" alt="a72446f6b86705f23fa07d1cbae28bd.png"></figure>
+<ul>
+<li>在浏览器访问<a href="http://localhost:8080/api/v1/hellos">http://localhost:8080/api/v1/hellos</a></li>
+</ul>
+<figure data-type="image" tabindex="5"><img src="http://images.clearcode.top/39df0c88e2a38fc4a99d2cbcb13aeb8.png" alt="39df0c88e2a38fc4a99d2cbcb13aeb8.png"></figure>
+<ul>
+<li>修改端口，这里将application改成了.yml格式，看个人习惯，用.properties也可以，只是配置文件里面的格式要注意</li>
+</ul>
+<figure data-type="image" tabindex="6"><img src="http://images.clearcode.top/62a0fdcba867fadb3f6f78a858dae9b.png" alt="62a0fdcba867fadb3f6f78a858dae9b.png"></figure>
+<pre><code class="language-java">server:
+  port: 8881
+  context-path: /
+</code></pre>
+<ul>
+<li>重新启动，并访问<a href="http://localhost:8881/api/v1/hellos">http://localhost:8881/api/v1/hellos</a></li>
+</ul>
+<figure data-type="image" tabindex="7"><img src="http://images.clearcode.top/c382f521aa984909fe370f69c998963.png" alt="c382f521aa984909fe370f69c998963.png"></figure>
+<ul>
+<li>搞定收工！</li>
+</ul>
 
           </div>
         </div>
 
         
+          <div class="next-post">
+            <a class="purple-link" href="https://clearcode1124.github.io/post/rabbitmq">
+              <h3 class="post-title">
+                下一篇：RabbitMQ
+              </h3>
+            </a>
+          </div>
+          
       </div>
 
       
