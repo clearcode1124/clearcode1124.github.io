@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://clearcode1124.github.io</id>
     <title>CWD.</title>
-    <updated>2019-10-13T02:59:16.170Z</updated>
+    <updated>2019-10-13T04:42:04.980Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://clearcode1124.github.io"/>
     <link rel="self" href="https://clearcode1124.github.io/atom.xml"/>
@@ -19,6 +19,51 @@
         <summary type="html"><![CDATA[<p><strong>关于cert证书的一些笔记</strong></p>
 ]]></summary>
         <content type="html"><![CDATA[<p><strong>关于cert证书的一些笔记</strong></p>
+<!-- more -->
+<h3 id="基本使用">基本使用</h3>
+<ul>
+<li>
+<p>genkey(生成key)</p>
+</li>
+<li>
+<p>alias server(别名)</p>
+</li>
+<li>
+<p>keypass 123456(别名密码)</p>
+</li>
+<li>
+<p>keyalg RSA(算法)</p>
+</li>
+<li>
+<p>keysize 1024(密钥长度)</p>
+</li>
+<li>
+<p>validity 3650(有效期，单位天)</p>
+</li>
+<li>
+<p>keystore server.keystore(指定生成证书的位置和证书名称)</p>
+</li>
+<li>
+<p>storepass 123456(获取keystore信息的密码)</p>
+</li>
+<li>
+<p>storetype PKCS12(生成的类型)</p>
+</li>
+</ul>
+<pre><code class="language-bash">keytool -genkey -alias server -keypass 123456 -keyalg RSA -keysize 1024 -validity 3650 -keystore D:/keys/server.keystore -storepass 123456
+
+# 生成pkcs12类型的
+keytool -genkey -alias client -keypass 123456 -keyalg RSA -keysize 1024 -validity 365 -storetype PKCS12 -keystore client.p12 -storepass 123456
+
+# 把pkcs12的导出成cer格式的
+keytool -export -alias client -keystore client.p12 -storetype PKCS12 -keypass 123456 -file client.cer
+
+#将证书导入cacerts 证书库里面
+keytool -import -alias cacert -keystore cacerts -file ./cacert.crt
+
+#将证书从cacerts 证书库里面删除
+keytool -delete -alias cacert -keystore ./cacerts -storepass changeit
+</code></pre>
 ]]></content>
     </entry>
     <entry>
@@ -30,6 +75,32 @@
         <summary type="html"><![CDATA[<p><strong>关于crontab的一些笔记</strong></p>
 ]]></summary>
         <content type="html"><![CDATA[<p><strong>关于crontab的一些笔记</strong></p>
+<!-- more -->
+<h3 id="安装">安装</h3>
+<pre><code class="language-bash">yum install crontabs
+
+systemctl start crond #启动
+
+systemctl status crond #查看状态
+</code></pre>
+<h3 id="使用">使用</h3>
+<pre><code class="language-bash">crontab -e #进入vi编辑，为当前用户创建定时任务
+0 8 * * * /home/wade/test.sh #每天的8:00执行test.sh脚本，前面的是cron表达式：分（0~59） 时（0~23） 日（1~31） 月（1~12） 周（0~6，0表示星期天）
+
+crontab -l #查看任务列表
+
+crontab -r #删除该用户的所有任务
+
+cat /var/spool/mail/用户名 #查看日志
+
+</code></pre>
+<ul>
+<li>注意：执行的脚本要带上 #!/bin/bash、source /etc/profile否则可能会有奇奇怪怪的报错，如下：</li>
+</ul>
+<pre><code class="language-bash">#!/bin/bash
+source /etc/profile #加载环境变量配置，防止找不到pt-archiver命令
+pt-archiver --source h=i.creekspring.com,P=13326,u=root,p=123456,D=solariot,t=solar_mote --dest h=192.168.0.103,P=3306,u=root,p=H9si0711,D=solariot_archive,t=solar_mote --where 'id&gt;=1' --no-delete --charset=UTF8
+</code></pre>
 ]]></content>
     </entry>
     <entry>
@@ -41,6 +112,187 @@
         <summary type="html"><![CDATA[<p><strong>关于Docker的一些笔记</strong></p>
 ]]></summary>
         <content type="html"><![CDATA[<p><strong>关于Docker的一些笔记</strong></p>
+<!-- more -->
+<h3 id="安装">安装</h3>
+<pre><code class="language-bash">yum -y install docker #centOs
+
+apt-get install -y docker.io #ubuntu
+
+systemctl start docker #启动 Docker 后台服务
+
+docker --version #查看版本，安装成功
+Docker version 1.13.1, build 94f4240/1.13.1
+</code></pre>
+<h3 id="加速器">加速器</h3>
+<ul>
+<li>
+<p>用的是DaoCloud的加速器，进入控制台的加速器</p>
+<figure data-type="image" tabindex="1"><img src="http://ouesp352x.bkt.clouddn.com/DaoCloud%E5%8A%A0%E9%80%9F%E5%99%A81.jpg" alt=""></figure>
+</li>
+<li>
+<p>复制代码到本地运行，即可将registry-mirror加入到Docker 配置文件 /etc/docker/daemon.json 中</p>
+<figure data-type="image" tabindex="2"><img src="http://ouesp352x.bkt.clouddn.com/DaoCloud%E5%8A%A0%E9%80%9F%E5%99%A82.jpg" alt=""></figure>
+<pre><code class="language-bash">curl -sSL https://get.daocloud.io/daotools/set_mirror.sh | sh -s http://010e8490.m.daocloud.io #运行复制的命令
+docker version &gt;= 1.12
+{&quot;registry-mirrors&quot;: [&quot;http://010e8490.m.daocloud.io&quot;],}
+Success.
+You need to restart docker to take effect: sudo systemctl restart docker
+
+sudo systemctl restart docker #重启docker
+</code></pre>
+</li>
+</ul>
+<h3 id="查看挂载情况">查看挂载情况</h3>
+<pre><code class="language-bash">docker inspect container_name | grep Mounts -A 20
+&quot;Mounts&quot;: [
+            {
+                &quot;Type&quot;: &quot;bind&quot;,
+                &quot;Source&quot;: &quot;/var/lib/mysql&quot;,
+                &quot;Destination&quot;: &quot;/run/media/wade/archive/data&quot;,
+                &quot;Mode&quot;: &quot;rw&quot;,
+                &quot;RW&quot;: true,
+                &quot;Propagation&quot;: &quot;rprivate&quot;
+            },
+            {
+                &quot;Type&quot;: &quot;volume&quot;,
+                &quot;Name&quot;: &quot;24ec79325c0fb26df06bb277194e487ebe8ea6c58225571296a0b8dd5474f466&quot;,
+                &quot;Source&quot;: &quot;/var/lib/docker/volumes/24ec79325c0fb26df06bb277194e487ebe8ea6c58225571296a0b8dd5474f466/_data&quot;,
+                &quot;Destination&quot;: &quot;/var/lib/mysql&quot;,
+                &quot;Driver&quot;: &quot;local&quot;,
+                &quot;Mode&quot;: &quot;&quot;,
+                &quot;RW&quot;: true,
+                &quot;Propagation&quot;: &quot;&quot;
+            }
+        ],
+        &quot;Config&quot;: {
+</code></pre>
+<h3 id="安装mysql">安装mysql</h3>
+<pre><code class="language-bash">docker search mysql #查找mysql官方镜像
+
+docker pull mysql:5.6 #拉取镜像mysql5.6版本
+
+docker images #查看本地镜像
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+docker.io/mysql     5.6                 5f5ccdc8aedc        7 weeks ago         256 MB
+
+sudo docker run --name siot-mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=H9si0711 -v /run/media/wade/archive/master/etc/mysql:/ee/master/etc/mysql/my.cnf:/etc/mysql/my.cnf -v /run/media/wade/archive/master/data:/var/lib/mysql -d master/mysql #创建mysql容器, --name 容器名称 -v 挂载文件 /宿主机文件路径:/容器内文件路
+ca5dd632677a144e647b410dee29d96dc029352c614ab560fa22bfa614f09b7c
+
+docker exec -it test-mysql bash #进入mysql容器
+
+mysql -uroot -p123456 #启用mysql窗口,进入命令行
+
+status; #查看mysql状态信息
+--------------
+mysql  Ver 14.14 Distrib 5.6.40, for Linux (x86_64) using  EditLine wrapper
+
+Connection id:		1
+Current database:	
+Current user:		root@localhost
+SSL:			Not in use
+Current pager:		stdout
+Using outfile:		''
+Using delimiter:	;
+Server version:		5.6.40 MySQL Community Server (GPL)
+Protocol version:	10
+Connection:		Localhost via UNIX socket
+Server characterset:	latin1
+Db     characterset:	latin1
+Client characterset:	latin1
+Conn.  characterset:	latin1
+UNIX socket:		/var/run/mysqld/mysqld.sock
+Uptime:			1 min 57 sec
+
+Threads: 1  Questions: 5  Slow queries: 0  Opens: 67  Flush tables: 1  Open tables: 60  Queries per second avg: 0.042
+--------------
+
+quit; #退出mysql
+
+按住ctrl，再按p，再按q退出mysql容器
+
+</code></pre>
+<h3 id="使用dockerfile构建镜像">使用Dockerfile构建镜像</h3>
+<ul>
+<li>以mysql5.6为例，参考文档 <a href="https://www.jianshu.com/p/12c34395e76e">90后最有文采的码农</a></li>
+</ul>
+<pre><code class="language-bash">mkdir siot
+
+cd siot
+
+vi my.cnf #编辑mysql的配置文件，这里只是指定了数据的存储路径
+[mysqld]
+datadir=/var/lib/mysql
+#############################
+
+vi Dockerfile
+FROM mysql:5.6 #指定基础镜像
+
+COPY my.cnf /etc/mysql/ #将刚才编辑的配置文件拷贝到将要运行的容器中，&lt;源路径&gt;  &lt;目标路径&gt;
+
+EXPOSE 3306 #声明端口
+
+CMD [&quot;mysqld&quot;]
+#############################
+
+docker build -t siot/mysql . #不要忘记最后的“.”
+
+
+</code></pre>
+<ul>
+<li><a href="https://yeasy.gitbooks.io/docker_practice/image/build.html">Dockerfile详解</a></li>
+</ul>
+<h3 id="配置网络代理">配置网络代理</h3>
+<pre><code class="language-sh">mkdir -p /etc/systemd/system/docker.service.d # 为docker服务创建一个内嵌的systemd目录
+
+vi /etc/systemd/system/docker.service.d/http-proxy.conf
+[Service]
+Environment=&quot;HTTP_PROXY=http://[proxy-addr]:[proxy-port]/&quot; &quot;HTTPS_PROXY=https://[proxy-addr]:[proxy-port]/&quot; &quot;NO_PROXY=localhost,127.0.0.1,docker-registry.somecorporation.com&quot;
+
+systemctl daemon-reload
+
+systemctl restart docker
+
+systemctl show docker --property Environment # 检查变量是否加载
+Environment=HTTP_PROXY=http://172.18.29.121:3128/ HTTPS_PROXY=https://172.18.29.121:3128/ NO_PROXY=localhost,127.0.0.1,172.18.*.*,*.aliyuncs.com,mirrors.cloud.aliyuncs.com
+
+# 取消代理
+rm -rf /etc/systemd/system/docker.service.d/http-proxy.conf
+systemctl daemon-reload
+systemctl restart docker
+systemctl show docker --property Environment
+</code></pre>
+<h3 id="设置开机自启">设置开机自启</h3>
+<pre><code class="language-bash">docker update --restart=always 容器名称或ID
+</code></pre>
+<h3 id="问题解决">问题&amp;解决</h3>
+<h4 id="挂载宿主机已存在目录后在容器内对其进行操作报permission-denied">挂载宿主机已存在目录后，在容器内对其进行操作，报“Permission denied”</h4>
+<ul>
+<li>关闭selinux</li>
+</ul>
+<pre><code class="language-bash">setenforce 0 #临时关闭
+
+vi /etc/sysconfig/selinux #永久关闭
+SELINUX=disabled
+</code></pre>
+<ul>
+<li>以特权方式启动容器</li>
+</ul>
+<pre><code class="language-bash">docker run -it --privileged=true -v /test:/soft centos /bin/bash #指定--privileged参数
+</code></pre>
+<h4 id="启动容器时报错error-response-from-daemon-error-creating-overlay-mount-to-varlibdockeroverlay2">启动容器时报错：Error response from daemon: error creating overlay mount to /var/lib/docker/overlay2</h4>
+<ul>
+<li>这是因为用的overlay2文件系统，而系统默认只能识别overlay文件系统</li>
+</ul>
+<pre><code class="language-bash">systemctl stop docker #停掉docker服务
+
+rm -rf /var/lib/docker #注意会清掉docker images的镜像
+
+vi /etc/sysconfig/docker-storage #将文件里的overlay2改成overlay即可
+
+vi /etc/sysconfig/docker #去掉option后面的--selinux-enabled
+
+systemctl start docker #启动deocker即可
+</code></pre>
 ]]></content>
     </entry>
     <entry>
@@ -52,6 +304,51 @@
         <summary type="html"><![CDATA[<p><strong>5G 时代，万物互联消息引擎</strong></p>
 ]]></summary>
         <content type="html"><![CDATA[<p><strong>5G 时代，万物互联消息引擎</strong></p>
+<!-- more -->
+<h3 id="安装erlang">安装erlang</h3>
+<ul>
+<li>
+<p>参考<a href="http://bbs.qcloud.com/thread-9769-1-1.html">链接</a></p>
+</li>
+<li>
+<p>官网<a href="https://www.erlang.org/downloads/19.0">下载</a>源码，然后将压缩包上传到服务器</p>
+</li>
+</ul>
+<pre><code class="language-bash">#安装依赖的环境
+yum install gcc
+
+yum install perl
+
+yum install ncurses-devel
+
+yum install unixODBC unixODBC-devel
+
+yum install gcc-c++ 
+
+yum install openssl-devel
+
+tar -zvxf otp_src_19.0.tar.gz #解压
+
+cd otp_src_19.0.tar.gz
+
+./configure --prefix=/usr/local/erlang --without-javac #配置，不用java编译，所以去掉java避免错误
+*********************************************************************
+**********************  APPLICATIONS DISABLED  **********************
+*********************************************************************
+jinterface     : Java compiler disabled by user
+*********************************************************************
+
+make &amp;&amp; make install
+
+erl #如果安装没报错，输入erl进入erlang的命令模式，就成功了，输入crypto:start(). ，提示ok，大功告成！！！
+Erlang/OTP 19 [erts-8.0] [source] [64-bit] [async-threads:10] [kernel-poll:false]
+
+Eshell V8.0  (abort with ^G)
+1&gt; crypto:start().
+ok
+2&gt;
+
+</code></pre>
 ]]></content>
     </entry>
     <entry>
@@ -63,6 +360,155 @@
         <summary type="html"><![CDATA[<p><strong>跟Git相关的一些笔记</strong></p>
 ]]></summary>
         <content type="html"><![CDATA[<p><strong>跟Git相关的一些笔记</strong></p>
+<!-- more -->
+<h3 id="忽略classpath">忽略.classpath</h3>
+<h5 id="如果project和classpath已经提交则需要从索引中删除而不是磁盘">如果.project和.classpath已经提交，则需要从索引中删除（而不是磁盘）</h5>
+<pre><code class="language-bash">git rm --cached .classpath
+</code></pre>
+<h3 id="第一次提交到远程仓库">第一次提交到远程仓库</h3>
+<ul>
+<li>
+<p>git init</p>
+</li>
+<li>
+<p>git remote add origin 仓库地址</p>
+</li>
+<li>
+<p>把.gitnore文件拷贝到工程</p>
+</li>
+<li>
+<p>git add .</p>
+</li>
+<li>
+<p>git ci -m&quot;init&quot;</p>
+</li>
+<li>
+<p>git push origin master</p>
+</li>
+<li>
+<p>git push --set-upstream origin master</p>
+</li>
+</ul>
+<h5 id="遇到的问题">遇到的问题</h5>
+<ul>
+<li>README.md文件不在本地代码目录中</li>
+</ul>
+<pre><code class="language-bash">git pull --rebase origin master # 合并远程文件到本地
+
+git push -u origin master # 提交本地文件到远程
+</code></pre>
+<h3 id="搭建git服务器">搭建Git服务器</h3>
+<pre><code class="language-bash">cd /home/wade/res #进入要搭建目录
+
+mkdir demo.git #创建一个.git的文件夹
+
+cd demo.git
+
+git init --bare #这样就好了，要注意权限、密钥什么的
+</code></pre>
+<h3 id="钩子hook">钩子hook</h3>
+<h4 id="官方文档"><a href="https://www.git-scm.com/book/zh/v2/%E8%87%AA%E5%AE%9A%E4%B9%89-Git-Git-%E9%92%A9%E5%AD%90">官方文档</a></h4>
+<h4 id="定义">定义</h4>
+<blockquote>
+<p>在特定的重要动作发生时触发自定义脚本，一般在git仓库的hooks文件夹下。</p>
+</blockquote>
+<ul>
+<li>
+<p>客户端钩子（需要注意的是，克隆某个版本库时，它的客户端钩子并不随同复制。如果需要靠这些脚本来强制维持某种策略，建议你在服务器端实现这一功能）</p>
+<ul>
+<li>
+<p>提交工作流钩子</p>
+<ul>
+<li>pre-commit</li>
+</ul>
+<blockquote>
+<p>在键入提交信息前运行。 它用于检查即将提交的快照，例如，检查是否有所遗漏，确保测试运行，以及核查代码。 如果该钩子以非零值退出，Git 将放弃此次提交，不过你可以用 git commit --no-verify 来绕过这个环节。 你可以利用该钩子，来检查代码风格是否一致（运行类似 lint 的程序）、尾随空白字符是否存在（自带的钩子就是这么做的），或新方法的文档是否适当。</p>
+</blockquote>
+<ul>
+<li>prepare-commit-msg</li>
+</ul>
+<blockquote>
+<p>在启动提交信息编辑器之前，默认信息被创建之后运行。 它允许你编辑提交者所看到的默认信息。 该钩子接收一些选项：存有当前提交信息的文件的路径、提交类型和修补提交的提交的 SHA-1 校验。 它对一般的提交来说并没有什么用；然而对那些会自动产生默认信息的提交，如提交信息模板、合并提交、压缩提交和修订提交等非常实用。 你可以结合提交模板来使用它，动态地插入信息。</p>
+</blockquote>
+<ul>
+<li>commit-msg</li>
+</ul>
+<blockquote>
+<p>接收一个参数，此参数即上文提到的，存有当前提交信息的临时文件的路径。 如果该钩子脚本以非零值退出，Git 将放弃提交，因此，可以用来在提交通过前验证项目状态或提交信息。 在本章的最后一节，我们将展示如何使用该钩子来核对提交信息是否遵循指定的模板。</p>
+</blockquote>
+<ul>
+<li>post-commit</li>
+</ul>
+<blockquote>
+<p>在整个提交过程完成后运行。 它不接收任何参数，但你可以很容易地通过运行 git log -1 HEAD 来获得最后一次的提交信息。 该钩子一般用于通知之类的事情。</p>
+</blockquote>
+</li>
+<li>
+<p>电子邮件工作流钩子（不常用）</p>
+</li>
+<li>
+<p>其它客户端钩子</p>
+<ul>
+<li>pre-rebase</li>
+</ul>
+<blockquote>
+<p>运行于变基之前，以非零值退出可以中止变基的过程。 你可以使用这个钩子来禁止对已经推送的提交变基。 Git 自带的 pre-rebase 钩子示例就是这么做的，不过它所做的一些假设可能与你的工作流程不匹配。</p>
+</blockquote>
+<ul>
+<li>post-rewrite</li>
+</ul>
+<blockquote>
+<p>被那些会替换提交记录的命令调用，比如 git commit --amend 和 git rebase（不过不包括 git filter-branch）。 它唯一的参数是触发重写的命令名，同时从标准输入中接受一系列重写的提交记录。 这个钩子的用途很大程度上跟 post-checkout 和 post-merge 差不多。</p>
+</blockquote>
+<ul>
+<li>post-checkout</li>
+</ul>
+<blockquote>
+<p>在 git checkout 成功运行后，post-checkout 钩子会被调用。你可以根据你的项目环境用它调整你的工作目录。 其中包括放入大的二进制文件、自动生成文档或进行其他类似这样的操作。</p>
+</blockquote>
+<ul>
+<li>post-merge</li>
+</ul>
+<blockquote>
+<p>在 git merge 成功运行后，post-merge 钩子会被调用。 你可以用它恢复 Git 无法跟踪的工作区数据，比如权限数据。 这个钩子也可以用来验证某些在 Git 控制之外的文件是否存在，这样你就能在工作区改变时，把这些文件复制进来。</p>
+</blockquote>
+<ul>
+<li>pre-push</li>
+</ul>
+<blockquote>
+<p>会在 git push 运行期间， 更新了远程引用但尚未传送对象时被调用。 它接受远程分支的名字和位置作为参数，同时从标准输入中读取一系列待更新的引用。 你可以在推送开始之前，用它验证对引用的更新操作（一个非零的退出码将终止推送过程）。</p>
+</blockquote>
+<ul>
+<li>pre-auto-gc</li>
+</ul>
+<blockquote>
+<p>Git 的一些日常操作在运行时，偶尔会调用 git gc --auto 进行垃圾回收。 pre-auto-gc 钩子会在垃圾回收开始之前被调用，可以用它来提醒你现在要回收垃圾了，或者依情形判断是否要中断回收。</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li>
+<p>服务器端钩子（除了客户端钩子，作为系统管理员，你还可以使用若干服务器端的钩子对项目强制执行各种类型的策略。 这些钩子脚本在推送到服务器之前和之后运行。 推送到服务器前运行的钩子可以在任何时候以非零值退出，拒绝推送并给客户端返回错误消息，还可以依你所想设置足够复杂的推送策略）</p>
+<ul>
+<li>pre-receive</li>
+</ul>
+<blockquote>
+<p>处理来自客户端的推送操作时，最先被调用的脚本是 pre-receive。 它从标准输入获取一系列被推送的引用。如果它以非零值退出，所有的推送内容都不会被接受。 你可以用这个钩子阻止对引用进行非快进（non-fast-forward）的更新，或者对该推送所修改的所有引用和文件进行访问控制。</p>
+</blockquote>
+<ul>
+<li>update</li>
+</ul>
+<blockquote>
+<p>update 脚本和 pre-receive 脚本十分类似，不同之处在于它会为每一个准备更新的分支各运行一次。 假如推送者同时向多个分支推送内容，pre-receive 只运行一次，相比之下 update 则会为每一个被推送的分支各运行一次。 它不会从标准输入读取内容，而是接受三个参数：引用的名字（分支），推送前的引用指向的内容的 SHA-1 值，以及用户准备推送的内容的 SHA-1 值。 如果 update 脚本以非零值退出，只有相应的那一个引用会被拒绝；其余的依然会被更新。</p>
+</blockquote>
+<ul>
+<li>post-receive</li>
+</ul>
+<blockquote>
+<p>post-receive 挂钩在整个过程完结以后运行，可以用来更新其他系统服务或者通知用户。 它接受与 pre-receive 相同的标准输入数据。 它的用途包括给某个邮件列表发信，通知持续集成（continous integration）的服务器，或者更新问题追踪系统（ticket-tracking system） —— 甚至可以通过分析提交信息来决定某个问题（ticket）是否应该被开启，修改或者关闭。 该脚本无法终止推送进程，不过客户端在它结束运行之前将保持连接状态，所以如果你想做其他操作需谨慎使用它，因为它将耗费你很长的一段时间。</p>
+</blockquote>
+</li>
+</ul>
 ]]></content>
     </entry>
     <entry>
@@ -74,6 +520,69 @@
         <summary type="html"><![CDATA[<p><strong>跟Java相关的一些笔记</strong></p>
 ]]></summary>
         <content type="html"><![CDATA[<p><strong>跟Java相关的一些笔记</strong></p>
+<!-- more -->
+<h2 id="时间格式">时间格式</h2>
+<ul>
+<li>
+<p>yyyy-MM-dd HH:mm:ss.ms</p>
+<p>2018-06-08 15:49:00.490</p>
+</li>
+<li>
+<p>yyyy年MM月dd日 HH:mm:ss.ms</p>
+<p>2018年06月08日 15:53:15.5315</p>
+</li>
+<li>
+<p>Y年M月d日 hⓂ️s.ms</p>
+<p>2018年6月8日 3:55:54.5554</p>
+</li>
+</ul>
+<h2 id="数组-list-map互相转换">数组、List、Map互相转换</h2>
+<pre><code class="language-java">String[] sArr = {&quot;1&quot;, &quot;2&quot;};
+
+// 转成list
+List&lt;String&gt; sList = Arrays.stream(sArr).collect(Collectors.toList());
+
+// 转换成Integr的list
+List&lt;Integer&gt; iList = Arrays.stream(sArr).map(Integer::parseInt).collect(Collectors.toList());
+
+// 转成map，key和value都为数组的值
+Map&lt;String, String&gt; sMap = Arrays.stream(sArr).collect(Collectors.toMap(s -&gt; s, s -&gt; s));
+
+// list转数组
+String[] sArr2 = sList.stream().toArray(String[]::new);
+
+// String的list转Integer的数组
+Integer[] iArr = sList.stream().map(Integer::parseInt).toArray(Integer[]::new);
+
+// list转map，key和value都为list的值
+Map&lt;String, String&gt; sMap2 = sList.stream().collect(Collectors.toMap(s -&gt; s, s -&gt; s));
+
+// map的value转list
+List&lt;String&gt; sList3 = sMap2.values().stream().collect(Collectors.toList());
+
+// map的value转数组
+String[] sArr3 = sMap2.values().stream().toArray(String[]::new);
+</code></pre>
+<h2 id="排序">排序</h2>
+<pre><code class="language-java">List&lt;SubSystem&gt; subSystems = super.listAll();
+
+// 根据SubSystem的id来进行排序，reversed()表示反向排序，否则就是正向排序
+Collections.sort(subSystems, Comparator.comparing(SubSystem::getId).reversed());
+
+// 更复杂的排序，例如：如果SubSystem的host相同，就根据id来排序
+Comparator&lt;SubSystem&gt; comparator = (s1,s2) -&gt; {
+      if (Objects.equal(s1.getHost(), s2.getHost())) {
+        return Long.compare(s1.getId(), s2.getId());
+      }
+      return s1.getHost().compareTo(s2.getHost());
+    };
+    
+Collections.sort(subSystems, comparator.reversed());
+</code></pre>
+<h2 id="去重">去重</h2>
+<pre><code class="language-java">list.stream().distinct()
+
+</code></pre>
 ]]></content>
     </entry>
     <entry>
@@ -85,6 +594,483 @@
         <summary type="html"><![CDATA[<p><strong>跟linux相关的一些笔记</strong></p>
 ]]></summary>
         <content type="html"><![CDATA[<p><strong>跟linux相关的一些笔记</strong></p>
+<!-- more -->
+<h3 id="用户管理">用户管理</h3>
+<h4 id="新增">新增</h4>
+<pre><code class="language-bash">adduser kgl
+Adding user `kgl' ...
+Adding new group `kgl' (1001) ...
+Adding new user `kgl' (1001) with group `kgl' ...
+Creating home directory `/home/kgl' ...
+Copying files from `/etc/skel' ...
+Enter new UNIX password: &lt;== 输入密码
+Retype new UNIX password: &lt;== 确认密码 
+passwd: password updated successfully
+Changing the user information for kgl
+Enter the new value, or press ENTER for the default
+	Full Name []: &lt;== 回车
+	Room Number []: &lt;== 回车
+	Work Phone []: &lt;== 回车
+	Home Phone []: &lt;== 回车
+	Other []: &lt;== 回车
+Is the information correct? [Y/n] y
+
+</code></pre>
+<h4 id="添加sudo权限">添加sudo权限</h4>
+<pre><code class="language-bash">usermod -aG sudo kgl
+</code></pre>
+<h4 id="密钥登录">密钥登录</h4>
+<ul>
+<li>生成密钥对</li>
+</ul>
+<pre><code class="language-bash">ssh-keygen&lt;== 生成
+Generating public/private rsa key pair.
+Enter file in which to save the key (/home/kgl/.ssh/id_rsa): &lt;== 回车
+Created directory '/home/kgl/.ssh'.
+Enter passphrase (empty for no passphrase): &lt;== 回车
+Enter same passphrase again: &lt;== 回车
+Your identification has been saved in /home/kgl/.ssh/id_rsa.
+Your public key has been saved in /home/kgl/.ssh/id_rsa.pub.
+The key fingerprint is:
+SHA256:xd2DSlXACa1YI2rqEz2HyqlGHLFY9UKFW7qdxtDavkA kgl@iZwz92qfb6ao9koavdyhcfZ
+The key's randomart image is:
+
+</code></pre>
+<ul>
+<li>配置公钥到服务器</li>
+</ul>
+<pre><code class="language-bash">sudo vi authorized_keys&lt;== 在.ssh文件夹下生成authorized_keys文件，并把id_rsa.pub的内容复制进去
+sudo: unable to resolve host iZwz92qfb6ao9koavdyhcfZ
+[sudo] password for kgl: &lt;== 输入登录密码
+</code></pre>
+<ul>
+<li>
+<p>使用私钥登录</p>
+<ol>
+<li>
+<p>将id_rsa下载到本地</p>
+</li>
+<li>
+<p>将私钥导入客户端（这里用的是Xshell），就能够登录了</p>
+</li>
+</ol>
+</li>
+</ul>
+<figure data-type="image" tabindex="1"><img src="https://upload-images.jianshu.io/upload_images/8051284-3dadf12cb5f66575.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></figure>
+<h4 id="删除用户">删除用户</h4>
+<pre><code class="language-bash">userdel username
+</code></pre>
+<h3 id="查看端口情况">查看端口情况</h3>
+<h4 id="查看某个端口是否被占用">查看某个端口是否被占用</h4>
+<pre><code class="language-bash">lsof -i:端口号
+COMMAND     PID USER   FD   TYPE DEVICE SIZE/OFF NODE NAME
+docker-pr 21024 root    4u  IPv6  72930      0t0  TCP *:mysql (LISTEN)
+
+</code></pre>
+<h3 id="添加硬盘">添加硬盘</h3>
+<h4 id="查看硬盘列表">查看硬盘列表</h4>
+<pre><code class="language-bash">fdisk -l
+磁盘 /dev/sda：1000.2 GB, 1000204886016 字节，1953525168 个扇区
+Units = 扇区 of 1 * 512 = 512 bytes
+扇区大小(逻辑/物理)：512 字节 / 4096 字节
+I/O 大小(最小/最佳)：4096 字节 / 4096 字节
+磁盘标签类型：gpt
+Disk identifier: 7E96905D-3E7F-4DBE-BE3B-17FC8E132E91
+
+
+#         Start          End    Size  Type            Name
+ 1         2048       411647    200M  EFI System      EFI System Partition
+ 2       411648      2508799      1G  Microsoft basic 
+ 3      2508800   1953523711  930.3G  Linux LVM       
+
+磁盘 /dev/mapper/centos-root：53.7 GB, 53687091200 字节，104857600 个扇区
+Units = 扇区 of 1 * 512 = 512 bytes
+扇区大小(逻辑/物理)：512 字节 / 4096 字节
+I/O 大小(最小/最佳)：4096 字节 / 4096 字节
+
+
+磁盘 /dev/mapper/centos-swap：8187 MB, 8187281408 字节，15990784 个扇区
+Units = 扇区 of 1 * 512 = 512 bytes
+扇区大小(逻辑/物理)：512 字节 / 4096 字节
+I/O 大小(最小/最佳)：4096 字节 / 4096 字节
+
+
+磁盘 /dev/mapper/centos-home：937.0 GB, 937036873728 字节，1830150144 个扇区
+Units = 扇区 of 1 * 512 = 512 bytes
+扇区大小(逻辑/物理)：512 字节 / 4096 字节
+I/O 大小(最小/最佳)：4096 字节 / 4096 字节
+
+
+磁盘 /dev/sdd：1000.2 GB, 1000204886016 字节，1953525168 个扇区
+Units = 扇区 of 1 * 512 = 512 bytes
+扇区大小(逻辑/物理)：512 字节 / 512 字节
+I/O 大小(最小/最佳)：512 字节 / 512 字节
+磁盘标签类型：dos
+磁盘标识符：0xda26a80f
+
+   设备 Boot      Start         End      Blocks   Id  System
+/dev/sdd1         1000000  1953525167   976262584   83  Linux
+
+磁盘 /dev/sdc：1000.2 GB, 1000204886016 字节，1953525168 个扇区
+Units = 扇区 of 1 * 512 = 512 bytes
+扇区大小(逻辑/物理)：512 字节 / 512 字节
+I/O 大小(最小/最佳)：512 字节 / 512 字节
+磁盘标签类型：dos
+磁盘标识符：0xda26a80e
+
+   设备 Boot      Start         End      Blocks   Id  System
+/dev/sdc1         1000000  1953525167   976262584   83  Linux
+
+</code></pre>
+<h4 id="新建分区">新建分区</h4>
+<pre><code class="language-bash">fdisk /dev/sdd
+欢迎使用 fdisk (util-linux 2.23.2)。
+
+更改将停留在内存中，直到您决定将更改写入磁盘。
+使用写入命令前请三思。
+
+
+命令(输入 m 获取帮助)：n # 新建
+Partition type:
+   p   primary (0 primary, 0 extended, 4 free)
+   e   extended
+Select (default p): p # p -&gt; 主分区，e -&gt; 扩展分区
+分区号 (1-4，默认 1)：1
+起始 扇区 (2048-1953525167，默认为 2048)：1000000
+Last 扇区, +扇区 or +size{K,M,G} (1000000-1953525167，默认为 1953525167)：
+将使用默认值 1953525167
+分区 1 已设置为 Linux 类型，大小设为 931 GiB
+
+命令(输入 m 获取帮助)：w # 保存并退出
+The partition table has been altered!
+
+Calling ioctl() to re-read partition table.
+正在同步磁盘。
+
+</code></pre>
+<ul>
+<li><a href="http://www.runoob.com/linux/linux-comm-fdisk.html">fdisk命令</a></li>
+</ul>
+<h4 id="格式化分区">格式化分区</h4>
+<pre><code class="language-bash">mkfs.ext4 /dev/sdd1 # 格式化为ext4的文件系统，还有ext2、ext3等
+mke2fs 1.42.9 (28-Dec-2013)
+文件系统标签=
+OS type: Linux
+块大小=4096 (log=2)
+分块大小=4096 (log=2)
+Stride=0 blocks, Stripe width=0 blocks
+61022208 inodes, 244065646 blocks
+12203282 blocks (5.00%) reserved for the super user
+第一个数据块=0
+Maximum filesystem blocks=2392850432
+7449 block groups
+32768 blocks per group, 32768 fragments per group
+8192 inodes per group
+Superblock backups stored on blocks: 
+	32768, 98304, 163840, 229376, 294912, 819200, 884736, 1605632, 2654208, 
+	4096000, 7962624, 11239424, 20480000, 23887872, 71663616, 78675968, 
+	102400000, 214990848
+
+Allocating group tables: 完成                            
+正在写入inode表: 完成                            
+Creating journal (32768 blocks): 完成
+Writing superblocks and filesystem accounting information: 完成
+</code></pre>
+<h4 id="创建挂载点实际就是新建一个文件夹并挂载">创建挂载点（实际就是新建一个文件夹），并挂载</h4>
+<pre><code class="language-bash">mkdir archive1 # 文件名随意，不过要注意路径，否则会报挂载点不存在
+mount /dev/sdd1 /dev/archive1 # 挂载
+vi /etc/fstab # 设置新硬盘开机自动挂载
+# 设备名称               挂载点                  文件系统 挂载选项      dump fsck
+/dev/sdb2               /dev/archive2/          ext4    defaults        0 0
+</code></pre>
+<ul>
+<li><a href="http://blog.51cto.com/lspgyy/1297432">fstab文件详解</a></li>
+</ul>
+<h4 id="查看硬盘挂载情况">查看硬盘挂载情况</h4>
+<pre><code class="language-bash">df -h
+文件系统                 容量  已用  可用 已用% 挂载点
+/dev/mapper/centos-root   50G  955M   50G    2% /
+devtmpfs                 3.8G     0  3.8G    0% /dev
+tmpfs                    3.8G     0  3.8G    0% /dev/shm
+tmpfs                    3.8G  8.7M  3.8G    1% /run
+tmpfs                    3.8G     0  3.8G    0% /sys/fs/cgroup
+/dev/sda2               1014M  135M  880M   14% /boot
+/dev/sda1                200M  9.8M  191M    5% /boot/efi
+/dev/mapper/centos-home  873G   33M  873G    1% /home
+tmpfs                    761M     0  761M    0% /run/user/1000
+tmpfs                    761M     0  761M    0% /run/user/0
+/dev/sdb1                917G   77M  870G    1% /dev/archive1
+/dev/sdd1                917G   77M  870G    1% /dev/archive2
+</code></pre>
+<h3 id="配置raid1">配置RAID1</h3>
+<h4 id="参考自tessykandy的博客"><a href="http://tessykandy.iteye.com/blog/2233201">参考自tessykandy的博客</a></h4>
+<h4 id="查看磁盘及磁盘分区">查看磁盘及磁盘分区</h4>
+<pre><code class="language-bash">cat /proc/partitions 
+major minor  #blocks  name
+
+   8        0  976762584 sda
+   8        1     204800 sda1
+   8        2    1048576 sda2
+   8        3  975507456 sda3
+  11        0    1048575 sr0
+ 253        0   52428800 dm-0
+ 253        1    7995392 dm-1
+ 253        2  915075072 dm-2
+   8       16  976762584 sdb
+   8       17  976262584 sdb1
+   8       64  976762584 sde
+   8       65  976262584 sde1
+</code></pre>
+<h4 id="将sdb和sde组成raid1">将sdb和sde组成RAID1</h4>
+<ul>
+<li>删除磁盘的所有分区</li>
+</ul>
+<pre><code class="language-bash">fdisk /dev/sdb
+欢迎使用 fdisk (util-linux 2.23.2)。
+
+更改将停留在内存中，直到您决定将更改写入磁盘。
+使用写入命令前请三思。
+
+
+命令(输入 m 获取帮助)：d # 删除分区
+Partition number (1-4): # 如果只有一个分区则直接删除，否则需要选择对应分区
+</code></pre>
+<ul>
+<li>创建新的raid分区</li>
+</ul>
+<pre><code class="language-bash">fdisk /dev/sdb
+欢迎使用 fdisk (util-linux 2.23.2)。
+
+更改将停留在内存中，直到您决定将更改写入磁盘。
+使用写入命令前请三思。
+
+
+命令(输入 m 获取帮助)：n
+# 这里也是先创建一个普通分区，不再详细介绍，创建完成后，先别w保存退出，还要指定分区类型
+Command (m for help): t # 指定分区类型
+Hex code (type L to list codes):fd # 指定为Linux raid autodetect
+命令(输入 m 获取帮助)：p # 查看分区信息
+
+磁盘 /dev/sdb：1000.2 GB, 1000204886016 字节，1953525168 个扇区
+Units = 扇区 of 1 * 512 = 512 bytes
+扇区大小(逻辑/物理)：512 字节 / 512 字节
+I/O 大小(最小/最佳)：512 字节 / 512 字节
+磁盘标签类型：dos
+磁盘标识符：0xda26a80e
+
+   设备 Boot      Start         End      Blocks   Id  System
+/dev/sdb1         1000000  1953525167   976262584   fd  Linux raid autodetect
+</code></pre>
+<p>对sde也做相同的操作，最终分区表如下</p>
+<pre><code class="language-bash">cat /proc/partitions 
+major minor  #blocks  name
+
+   8        0  976762584 sda
+   8        1     204800 sda1
+   8        2    1048576 sda2
+   8        3  975507456 sda3
+  11        0    1048575 sr0
+ 253        0   52428800 dm-0
+ 253        1    7995392 dm-1
+ 253        2  915075072 dm-2
+   8       16  976762584 sdb
+   8       17  976262584 sdb1
+   8       32  976762584 sdc
+   8       33  976262584 sdc1
+</code></pre>
+<ul>
+<li>创建RAID1</li>
+</ul>
+<pre><code class="language-bash">mdadm -C /dev/md1 -ayes -l1 -n2 /dev/sd[b,e]1
+#……
+Continue creating array? y
+mdadm: array /dev/md1 started. # 出现这个表示成功了
+</code></pre>
+<p><a href="https://blog.csdn.net/liumangxiong/article/details/8970781">mdadm命令详解</a></p>
+<ul>
+<li>查看raid1状态</li>
+</ul>
+<pre><code class="language-bash">cat /proc/mdstat 
+Personalities : [raid1] 
+md1 : active raid1 sdc1[1] sdb1[0]
+      976629440 blocks super 1.2 [2/2] [UU]
+      [&gt;....................]  resync =  0.0% (76032/976629440) finish=3638.3min speed=4472K/sec
+      bitmap: 8/8 pages [32KB], 65536KB chunk
+
+unused devices: &lt;none&gt;
+</code></pre>
+<ul>
+<li>查看分区表</li>
+</ul>
+<pre><code class="language-bash">cat /proc/partitions 
+major minor  #blocks  name
+
+   8        0  976762584 sda
+   8        1     204800 sda1
+   8        2    1048576 sda2
+   8        3  975507456 sda3
+  11        0    1048575 sr0
+ 253        0   52428800 dm-0
+ 253        1    7995392 dm-1
+ 253        2  915075072 dm-2
+   8       16  976762584 sdb
+   8       17  976761560 sdb1
+</code></pre>
+<ul>
+<li>修改配置文件/etc/mdadm.conf</li>
+</ul>
+<pre><code class="language-bash">echo DEVICE /dev/sd{b,c}1 &gt;&gt; /etc/mdadm.conf  
+mdadm -Ds &gt;&gt; /etc/mdadm.conf
+# 结果如下
+cat /etc/mdadm.conf 
+DEVICE /dev/sdb1 /dev/sde1
+ARRAY /dev/md1 metadata=1.2 name=localhost.localdomain:1 UUID=320bd264:ec71c79d:7b0df320:183ad3bc
+</code></pre>
+<ul>
+<li>格式化raid</li>
+</ul>
+<pre><code class="language-bash">mkfs.ext4 /dev/md1
+# ……
+Allocating group tables: 完成                            
+正在写入inode表: 完成                            
+Creating journal (32768 blocks): 完成
+Writing superblocks and filesystem accounting information: 完成 # 到这里就说明成功了
+</code></pre>
+<ul>
+<li>建立挂载点并挂载</li>
+</ul>
+<pre><code class="language-bash">mkdir archive
+mount /dev/md1 /dev/archive
+</code></pre>
+<ul>
+<li>查看挂载情况</li>
+</ul>
+<pre><code class="language-bash">df -h
+文件系统                 容量  已用  可用 已用% 挂载点
+/dev/mapper/centos-root   50G  958M   50G    2% /
+devtmpfs                 3.8G     0  3.8G    0% /dev
+tmpfs                    3.8G     0  3.8G    0% /dev/shm
+tmpfs                    3.8G   49M  3.7G    2% /run
+tmpfs                    3.8G     0  3.8G    0% /sys/fs/cgroup
+/dev/sda2               1014M  135M  880M   14% /boot
+/dev/sda1                200M  9.8M  191M    5% /boot/efi
+/dev/mapper/centos-home  873G   33M  873G    1% /home
+tmpfs                    761M     0  761M    0% /run/user/1000
+tmpfs                    761M     0  761M    0% /run/user/0
+/dev/md1                 917G   77M  870G    1% /dev/archive
+</code></pre>
+<ul>
+<li>开机自动挂载</li>
+</ul>
+<pre><code class="language-bash">vi /etc/fstab
+/dev/md1                /dev/archive/           ext4    defaults        0 0
+</code></pre>
+<h4 id="取消raid">取消RAID</h4>
+<pre><code class="language-bash">umount /dev/archive #取消挂载
+
+mdadm --stop /dev/md1 #停止RAID
+
+mdadm --remove /dev/md1 #删除RAID
+</code></pre>
+<h3 id="设置静态ip">设置静态IP</h3>
+<pre><code class="language-bash">vi /etc/sysconfig/network-scripts/ifcfg-eno1
+
+TYPE=Ethernet
+BOOTPROTO=static                  #使用static配置
+DEFROUTE=yes
+PEERDNS=yes
+PEERROUTES=yes
+IPV4_FAILURE_FATAL=no
+IPV6INIT=yes
+IPV6_AUTOCONF=yes
+IPV6_DEFROUTE=yes
+IPV6_PEERDNS=yes
+IPV6_PEERROUTES=yes
+IPV6_FAILURE_FATAL=no
+NAME=eno1
+UUID=ea4bbbab-1804-46df-b8f9-1451e5a710fc
+DEVICE=eno1
+ONBOOT=yes                        #开机启用本配置
+IPADDR=192.168.1.45               #静态IP
+GATEWAY=192.168.1.1               #默认网关
+NETMASK=255.255.255.0             #子网掩码
+DNS1=192.168.1.1                  #DNS配置
+
+systemctl restart network.service #重启网络服务
+</code></pre>
+<h3 id="vimvi">Vim/vi</h3>
+<pre><code class="language-bash">u #退出Insert模式后，输入u进行回退
+
+ctrl + r #与u相反
+
+:set nu #显示行号
+
+:set nu! #不显示行号
+
+:100 #跳到第100行
+
+:/关键字 #查找关键字，n -&gt; 向下查找，N -&gt; 向上查找
+
+:s/被替换的内容/要替换的内容 #替换光标所在行的第一个匹配内容
+
+:1,10d #删除1-10行
+</code></pre>
+<h3 id="修改主机名">修改主机名</h3>
+<pre><code class="language-bash">vi /etc/hostname
+</code></pre>
+<h3 id="关机-重启">关机、重启</h3>
+<pre><code class="language-bash">shutdown –help # 可以查看shutdown命令如何使用，当然也可以使用man shutdown命令。
+
+shutdown -h now # 现在立即关机
+
+shutdown -r now # 现在立即重启
+
+shutdown -r +3 # 三分钟后重启
+
+shutdown -h +3 # “The System will shutdown after 3 minutes” 提示使用者将在三分钟后关机
+
+shutdown -r 20:23 # 在20：23时将重启计算机
+
+shutdown -r 20:23 &amp; # 可以将在20：23时重启的任务放到后台去，用户可以继续操作终端
+</code></pre>
+<h3 id="防火墙">防火墙</h3>
+<pre><code class="language-bash">firewall-cmd --state                           ##查看防火墙状态，是否是running
+
+firewall-cmd --reload                          ##重新载入配置，比如添加规则之后，需要执行此命令
+
+firewall-cmd --get-zones                       ##列出支持的zone
+
+firewall-cmd --get-services                    ##列出支持的服务，在列表中的服务是放行的
+
+firewall-cmd --query-service ftp               ##查看ftp服务是否支持，返回yes或者no
+
+firewall-cmd --add-service=ftp                 ##临时开放ftp服务
+
+firewall-cmd --add-service=ftp --permanent     ##永久开放ftp服务
+
+firewall-cmd --remove-service=ftp --permanent  ##永久移除ftp服务
+
+firewall-cmd --add-port=80/tcp --permanent     ##永久添加80端口 
+
+iptables -L -n                                 ##查看规则，这个命令是和iptables的相同的
+
+man firewall-cmd                               ##查看帮助
+
+systemctl stop firewalld.service               ##停止
+
+systemctl disable firewalld.service            ##禁止开机启动
+</code></pre>
+<h3 id="安装openjdk-8">安装openJDK 8</h3>
+<ul>
+<li>centOS</li>
+</ul>
+<pre><code class="language-bash">yum install java-1.8.0-openjdk java-1.8.0-openjdk-devel
+</code></pre>
+<ul>
+<li>ubuntu</li>
+</ul>
+<pre><code class="language-bash">apt-get install openjdk-8-jdk
+</code></pre>
 ]]></content>
     </entry>
     <entry>
@@ -96,6 +1082,76 @@
         <summary type="html"><![CDATA[<p><strong>跟Maven相关的一些笔记</strong></p>
 ]]></summary>
         <content type="html"><![CDATA[<p><strong>跟Maven相关的一些笔记</strong></p>
+<!-- more -->
+<h3 id="利用mvn-deploy命令将jar包上传到nexus服务器">利用mvn deploy命令将jar包上传到nexus服务器</h3>
+<ul>
+<li>
+<p>参考自<a href="https://my.oschina.net/u/566545/blog/371514">joenali的个人空间</a></p>
+</li>
+<li>
+<p>修改setting.xml，在<profiles></profiles>标签内增加以下内容</p>
+</li>
+</ul>
+<pre><code class="language-xml">&lt;profile&gt;
+    &lt;id&gt;test&lt;/id&gt;
+    &lt;repositories&gt;
+        &lt;repository&gt;
+            &lt;id&gt;nexus&lt;/id&gt;
+            &lt;name&gt;local_repositories&lt;/name&gt;
+            &lt;url&gt;http://localhost:8081/nexus/content/groups/public/&lt;/url&gt;
+            &lt;releases&gt;
+                &lt;enabled&gt;true&lt;/enabled&gt;
+            &lt;/releases&gt;
+            &lt;snapshots&gt;
+                &lt;enabled&gt;true&lt;/enabled&gt;
+            &lt;/snapshots&gt;
+        &lt;/repository&gt;
+    &lt;/repositories&gt;
+&lt;/profile&gt;
+</code></pre>
+<ul>
+<li>修改setting.xml，在<servers></servers>标签内增加以下内容</li>
+</ul>
+<pre><code class="language-xml">&lt;server&gt;
+   &lt;id&gt;releases&lt;/id&gt; &lt;!-- nexus仓库的ID，比如这里选的是releases仓库 --&gt;
+   &lt;username&gt;deployment&lt;/username&gt; &lt;!-- 这里使用的是nexus的帐号：deployment，可以在nexus服务器管理 --&gt;
+   &lt;password&gt;deployment123&lt;/password&gt; &lt;!-- deployment帐号默认密码： deployment123 --&gt;
+&lt;/server&gt;
+</code></pre>
+<ul>
+<li>修改项目下的pom.xml，在<project></project>标签内增加如下内容</li>
+</ul>
+<pre><code class="language-xml">&lt;distributionManagement&gt;
+    &lt;snapshotRepository&gt;
+        &lt;id&gt;snapshots&lt;/id&gt;
+        &lt;name&gt;Nexus Snapshot Repository&lt;/name&gt;
+        &lt;url&gt;http://localhost:8081/nexus/content/repositories/snapshots&lt;/url&gt;
+    &lt;/snapshotRepository&gt;
+
+    &lt;repository&gt;
+        &lt;id&gt;releases&lt;/id&gt;
+        &lt;name&gt;Nexus Release Repository&lt;/name&gt;
+        &lt;url&gt;http://localhost:8081/nexus/content/repositories/releases&lt;/url&gt;
+    &lt;/repository&gt;
+&lt;/distributionManagement&gt;
+</code></pre>
+<ul>
+<li>在项目根目录下运行命令即可</li>
+</ul>
+<pre><code class="language-bash">mvn deploy -DskipTests -Dsnapshots.repo=http://localhost:8081/nexus/content/repositories/snapshots -Dreleases.repo=http://localhost:8081/nexus/content/repositories/releases
+</code></pre>
+<h3 id="生成项目原型以及用原型生成新的项目">生成项目原型以及用原型生成新的项目</h3>
+<pre><code class="language-bash">cd /f/workspace/demo #进入项目的根目录
+
+mvn archetype:create-from-project #运行成功后生成的项目原型保存在当前目录的\target\generated-sources\archetype下
+
+cd /f/workspace #在workspace文件夹下根据原型生成新的项目
+
+mvn archetype:generate -B -DarchetypeCatalog=local -DarchetypeRepository=原型的maven仓库地址（如果在本地直接写‘local’） -DarchetypeGroupId=原型的groupId -DarchetypeArtifactId=原型的artifactId -DarchetypeVersion=原型的version -DgroupId=新项目的groupId -DartifactId=新项目的artifactId
+</code></pre>
+<h3 id="将jar包安装到本地仓库">将jar包安装到本地仓库</h3>
+<pre><code class="language-bash">mvn install:install-file -Dfile=jar位置 -DgroupId=jar包的groupId -DartifactId=jar包的artifactId -Dpackaging=jar
+</code></pre>
 ]]></content>
     </entry>
     <entry>
@@ -107,6 +1163,36 @@
         <summary type="html"><![CDATA[<p><strong>跟Nutz相关的一些笔记</strong></p>
 ]]></summary>
         <content type="html"><![CDATA[<p><strong>跟Nutz相关的一些笔记</strong></p>
+<!-- more -->
+<h2 id="自定义sql-拼接查询条件-分页">自定义Sql + 拼接查询条件 + 分页</h2>
+<pre><code class="language-java">@Override
+  public Pagination&lt;SnAfterSalesLog&gt; pagiByCondition(int pageNo, int pageSize, String snHex) {
+    // 获取自定义sql语句
+    Sql sql = getQueryRecordSqlByKey(SqlKey.LIST_ALL_WITH_SNBURNERTIME_PRODUCTNUMBER);
+    // 默认查询条件
+    Cnd conditionParam = Cnd.where(&quot;t.deleted_at&quot;, &quot;=&quot;, 0);
+    Cnd cndForCount = createDefaultQueryCondition();
+    if (StringUtils.isNoneBlank(snHex)) {
+      int sn = 0;
+      try {
+        sn = Integer.parseInt(snHex, 16);
+      } catch (Exception e) {
+        throw IgnisException.clientError(&quot;SN号转换错误&quot;);
+      }
+      // 设置并拼接查询条件
+      conditionParam.and(&quot;t.sn&quot;, &quot;=&quot;, sn);
+      cndForCount.and(Field.SN, &quot;=&quot;, sn);
+      sql.setCondition(conditionParam);
+    }
+    // 设置分页
+    sql.setPager(new Pager(pageNo, pageSize));
+    List&lt;SnAfterSalesLog&gt; snAfterSalesLogs = query(sql, SnAfterSalesLog.class);
+    Pagination&lt;SnAfterSalesLog&gt; pagination = new Pagination&lt;&gt;(pageNo, pageSize);
+    pagination.setRecordCount(base().count(cndForCount));
+    pagination.setRecords(snAfterSalesLogs);
+    return pagination;
+  }
+</code></pre>
 ]]></content>
     </entry>
     <entry>
@@ -118,6 +1204,121 @@
         <summary type="html"><![CDATA[<p><strong>跟mysql相关的一些笔记</strong></p>
 ]]></summary>
         <content type="html"><![CDATA[<p><strong>跟mysql相关的一些笔记</strong></p>
+<!-- more -->
+<h3 id="查看状态信息">查看状态信息</h3>
+<pre><code class="language-sql">mysql&gt; status;
+--------------
+mysql  Ver 14.14 Distrib 5.6.40, for Linux (x86_64) using  EditLine wrapper
+
+Connection id:		1
+Current database:	
+Current user:		root@localhost
+SSL:			Not in use
+Current pager:		stdout
+Using outfile:		''
+Using delimiter:	;
+Server version:		5.6.40 MySQL Community Server (GPL)
+Protocol version:	10
+Connection:		Localhost via UNIX socket
+Server characterset:	latin1
+Db     characterset:	latin1
+Client characterset:	latin1
+Conn.  characterset:	latin1
+UNIX socket:		/var/run/mysqld/mysqld.sock
+Uptime:			10 min 17 sec
+
+Threads: 1  Questions: 10  Slow queries: 0  Opens: 67  Flush tables: 1  Open tables: 60  Queries per second avg: 0.016
+--------------
+
+</code></pre>
+<h3 id="查看数据库物理文件存放位置">查看数据库物理文件存放位置</h3>
+<pre><code class="language-sql">mysql&gt; show global variables like &quot;%datadir%&quot;;
++---------------+------------+
+| Variable_name | Value      |
++---------------+------------+
+| datadir       | /usr/data/ |
++---------------+------------+
+1 row in set (0.00 sec)
+</code></pre>
+<h3 id="查看编码方式">查看编码方式</h3>
+<pre><code class="language-sql">mysql&gt; show variables like 'character%';
++--------------------------+----------------------------+
+| Variable_name            | Value                      |
++--------------------------+----------------------------+
+| character_set_client     | latin1                     |
+| character_set_connection | latin1                     |
+| character_set_database   | latin1                     |
+| character_set_filesystem | binary                     |
+| character_set_results    | latin1                     |
+| character_set_server     | latin1                     |
+| character_set_system     | utf8                       |
+| character_sets_dir       | /usr/share/mysql/charsets/ |
++--------------------------+----------------------------+
+8 rows in set (0.00 sec)
+</code></pre>
+<h3 id="查看版本">查看版本</h3>
+<pre><code class="language-sql">select version();
+</code></pre>
+<h3 id="查看数据库以及表的大小">查看数据库以及表的大小</h3>
+<pre><code class="language-sql"># 切换到information_schema数据库
+use `information_schema`;
+
+# 查看数据库的大小
+SELECT
+	concat( round( sum( data_length / 1024 / 1024 ), 2 ), 'MB' ) AS DATA 
+FROM
+TABLES 
+WHERE
+	table_schema = 'DB_NAME';
+
+# 查看表的大小
+SELECT
+	concat( round( sum( data_length / 1024 / 1024 ), 2 ), 'MB' ) AS DATA 
+FROM
+TABLES 
+WHERE
+	table_schema = 'DB_NAME' 
+	AND table_name = 'TABLE_NAME';
+</code></pre>
+<h3 id="时间">时间</h3>
+<h4 id="格式">格式</h4>
+<ul>
+<li>%S, %s 两位数字形式的秒（ 00,01, ..., 59）</li>
+<li>%I, %i 两位数字形式的分（ 00,01, ..., 59）</li>
+<li>%H 两位数字形式的小时，24 小时（00,01, ..., 23）</li>
+<li>%h 两位数字形式的小时，12 小时（01,02, ..., 12）</li>
+<li>%k 数字形式的小时，24 小时（0,1, ..., 23）</li>
+<li>%l 数字形式的小时，12 小时（1, 2, ..., 12）</li>
+<li>%T 24 小时的时间形式（hh:mm:ss）</li>
+<li>%r 12 小时的时间形式（hh:mm:ss AM 或hh:mm:ss PM）</li>
+<li>%p AM或PM</li>
+<li>%W 一周中每一天的名称（Sunday, Monday, ..., Saturday）</li>
+<li>%a 一周中每一天名称的缩写（Sun, Mon, ..., Sat）</li>
+<li>%d 两位数字表示月中的天数（00, 01,..., 31）</li>
+<li>%e 数字形式表示月中的天数（1, 2， ..., 31）</li>
+<li>%D 英文后缀表示月中的天数（1st, 2nd, 3rd,...）</li>
+<li>%w 以数字形式表示周中的天数（ 0 = Sunday, 1=Monday, ..., 6=Saturday）</li>
+<li>%j 以三位数字表示年中的天数（ 001, 002, ..., 366）</li>
+<li>%U 周（0, 1, 52），其中Sunday 为周中的第一天</li>
+<li>%u 周（0, 1, 52），其中Monday 为周中的第一天</li>
+<li>%M 月名（January, February, ..., December）</li>
+<li>%b 缩写的月名（ January, February,...., December）</li>
+<li>%m 两位数字表示的月份（01, 02, ..., 12）</li>
+<li>%c 数字表示的月份（1, 2, ...., 12）</li>
+<li>%Y 四位数字表示的年份</li>
+<li>%y 两位数字表示的年份</li>
+<li>%% 直接值“%”</li>
+</ul>
+<pre><code class="language-sql">DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 21 DAY),'%Y-%m-%d') # 格式化
+
+DATE_SUB(NOW(), INTERVAL 1 DAY) # 前一天
+
+DATE_ADD(NOW(), INTERVAL 1 DAY) # 后一天
+
+UNIX_TIMESTAMP(NOW()) # 转成时间戳
+
+FROM_UNIXTIME(UNIX_TIMESTAMP(NOW())) # 时间戳转成默认的时间格式：'%Y-%m-%d %H:%i:%s'
+</code></pre>
 ]]></content>
     </entry>
 </feed>
