@@ -1,295 +1,427 @@
-
+<!DOCTYPE html>
 <html>
   <head>
-    
-<meta charset="utf-8" >
+    <meta charset="utf-8" >
 
 <title>CWD.</title>
 <meta name="description" content="在最深的红尘里与你相遇">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+<link rel="shortcut icon" href="https://clearcode1124.github.io/favicon.ico?v=1571387446897">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://clearcode1124.github.io/favicon.ico?v=1571368049483">
+<link rel="stylesheet" href="https://unpkg.com/papercss@1.6.1/dist/paper.min.css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://clearcode1124.github.io/styles/main.css">
 
 
-
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
 
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 
 
   </head>
   <body>
-    <div id="app" class="main">
-      <div class="site-header-container">
-  <div class="site-header">
-    <div class="left">
-      <a href="https://clearcode1124.github.io">
-        <img class="avatar" src="https://clearcode1124.github.io/images/avatar.png?v=1571368049483" alt="" width="32px" height="32px">
-      </a>
-      <a href="https://clearcode1124.github.io">
-        <h1 class="site-title">CWD.</h1>
+    <nav class="navbar border fixed split-nav">
+  <div class="nav-brand">
+    <h3><a href="https://clearcode1124.github.io">CWD.</a></h3>
+  </div>
+  <div class="collapsible">
+    <input id="collapsible1" type="checkbox" name="collapsible1">
+    <button>
+      <label for="collapsible1">
+        <div class="bar1"></div>
+        <div class="bar2"></div>
+        <div class="bar3"></div>
+      </label>
+    </button>
+    <div class="collapsible-body">
+      <ul class="inline">
+        
+          <li>
+            
+              <a href="/" class="menu">
+                首页
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/archives" class="menu">
+                归档
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/tags" class="menu">
+                标签
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/post/about" class="menu">
+                关于
+              </a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+    <div id="top" class="row site">
+      <div class="sm-12 md-8 col">
+        <div class="paper">
+          
+  <article class="article">
+    <h2 class="article-title">
+      <a href="https://clearcode1124.github.io/post/cert-zheng-shu">Cert证书</a>
+    </h2>
+    <p class="article-meta">
+      2019-10-12
+      
+    </p>
+    <p class="text-lead">
+      <p><strong>关于cert证书的一些笔记</strong></p>
+
+    </p>
+    <div class="row">
+      <a href="https://clearcode1124.github.io/post/cert-zheng-shu" class="readmore-link">
+        <button>
+          Read More
+        </button>
       </a>
     </div>
-    <div class="right">
-      <transition name="fade">
-        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
-      </transition>
+  </article>
+
+  <article class="article">
+    <h2 class="article-title">
+      <a href="https://clearcode1124.github.io/post/crontab">Crontab</a>
+    </h2>
+    <p class="article-meta">
+      2019-10-12
+      
+    </p>
+    <p class="text-lead">
+      <p><strong>关于crontab的一些笔记</strong></p>
+
+    </p>
+    <div class="row">
+      <a href="https://clearcode1124.github.io/post/crontab" class="readmore-link">
+        <button>
+          Read More
+        </button>
+      </a>
     </div>
+  </article>
+
+  <article class="article">
+    <h2 class="article-title">
+      <a href="https://clearcode1124.github.io/post/docker">Docker</a>
+    </h2>
+    <p class="article-meta">
+      2019-10-12
+      
+    </p>
+    <p class="text-lead">
+      <p><strong>关于Docker的一些笔记</strong></p>
+
+    </p>
+    <div class="row">
+      <a href="https://clearcode1124.github.io/post/docker" class="readmore-link">
+        <button>
+          Read More
+        </button>
+      </a>
+    </div>
+  </article>
+
+  <article class="article">
+    <h2 class="article-title">
+      <a href="https://clearcode1124.github.io/post/emq">EMQ</a>
+    </h2>
+    <p class="article-meta">
+      2019-10-12
+      
+    </p>
+    <p class="text-lead">
+      <p><strong>5G 时代，万物互联消息引擎</strong></p>
+
+    </p>
+    <div class="row">
+      <a href="https://clearcode1124.github.io/post/emq" class="readmore-link">
+        <button>
+          Read More
+        </button>
+      </a>
+    </div>
+  </article>
+
+  <article class="article">
+    <h2 class="article-title">
+      <a href="https://clearcode1124.github.io/post/git">Git</a>
+    </h2>
+    <p class="article-meta">
+      2019-10-12
+      
+    </p>
+    <p class="text-lead">
+      <p><strong>跟Git相关的一些笔记</strong></p>
+
+    </p>
+    <div class="row">
+      <a href="https://clearcode1124.github.io/post/git" class="readmore-link">
+        <button>
+          Read More
+        </button>
+      </a>
+    </div>
+  </article>
+
+  <article class="article">
+    <h2 class="article-title">
+      <a href="https://clearcode1124.github.io/post/java">Java</a>
+    </h2>
+    <p class="article-meta">
+      2019-10-12
+      
+    </p>
+    <p class="text-lead">
+      <p><strong>跟Java相关的一些笔记</strong></p>
+
+    </p>
+    <div class="row">
+      <a href="https://clearcode1124.github.io/post/java" class="readmore-link">
+        <button>
+          Read More
+        </button>
+      </a>
+    </div>
+  </article>
+
+  <article class="article">
+    <h2 class="article-title">
+      <a href="https://clearcode1124.github.io/post/linux">Linux</a>
+    </h2>
+    <p class="article-meta">
+      2019-10-12
+      
+    </p>
+    <p class="text-lead">
+      <p><strong>跟linux相关的一些笔记</strong></p>
+
+    </p>
+    <div class="row">
+      <a href="https://clearcode1124.github.io/post/linux" class="readmore-link">
+        <button>
+          Read More
+        </button>
+      </a>
+    </div>
+  </article>
+
+  <article class="article">
+    <h2 class="article-title">
+      <a href="https://clearcode1124.github.io/post/maven">Maven</a>
+    </h2>
+    <p class="article-meta">
+      2019-10-12
+      
+    </p>
+    <p class="text-lead">
+      <p><strong>跟Maven相关的一些笔记</strong></p>
+
+    </p>
+    <div class="row">
+      <a href="https://clearcode1124.github.io/post/maven" class="readmore-link">
+        <button>
+          Read More
+        </button>
+      </a>
+    </div>
+  </article>
+
+  <article class="article">
+    <h2 class="article-title">
+      <a href="https://clearcode1124.github.io/post/nutz">Nutz</a>
+    </h2>
+    <p class="article-meta">
+      2019-10-12
+      
+    </p>
+    <p class="text-lead">
+      <p><strong>跟Nutz相关的一些笔记</strong></p>
+
+    </p>
+    <div class="row">
+      <a href="https://clearcode1124.github.io/post/nutz" class="readmore-link">
+        <button>
+          Read More
+        </button>
+      </a>
+    </div>
+  </article>
+
+  <article class="article">
+    <h2 class="article-title">
+      <a href="https://clearcode1124.github.io/post/mysql">MySQL</a>
+    </h2>
+    <p class="article-meta">
+      2019-10-12
+      
+    </p>
+    <p class="text-lead">
+      <p><strong>跟mysql相关的一些笔记</strong></p>
+
+    </p>
+    <div class="row">
+      <a href="https://clearcode1124.github.io/post/mysql" class="readmore-link">
+        <button>
+          Read More
+        </button>
+      </a>
+    </div>
+  </article>
+
+
+        </div>
+        
+        <div class="row flex-edges">
+  
+  
+    <a href="https://clearcode1124.github.io/page/2/" class="paper-btn">
+      下一页
+    </a>
+  
+</div>
+
+      </div>
+      
+      <div class="sm-12 md-4 col sidebar">
+  <div class="paper info-container">
+    <img src="https://clearcode1124.github.io/images/avatar.png?v=1571387446897" class="no-responsive avatar">
+    <div class="text-muted">在最深的红尘里与你相遇</div>
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+  </div>
+  <div class="paper">
+    <div class="sidebar-title">
+      最新文章
+    </div>
+    <div class="row">
+      <ul>
+        
+          
+            <li>
+              <a href="https://clearcode1124.github.io/post/cert-zheng-shu">Cert证书</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://clearcode1124.github.io/post/crontab">Crontab</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://clearcode1124.github.io/post/docker">Docker</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://clearcode1124.github.io/post/emq">EMQ</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://clearcode1124.github.io/post/git">Git</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://clearcode1124.github.io/post/java">Java</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://clearcode1124.github.io/post/linux">Linux</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://clearcode1124.github.io/post/maven">Maven</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://clearcode1124.github.io/post/nutz">Nutz</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://clearcode1124.github.io/post/mysql">MySQL</a>
+            </li>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      </ul>
+    </div>
+  </div>
+  <div class="paper">
+    <div class="sidebar-title">
+      标签列表
+    </div>
+    <div class="row">
+      
+    </div>
+  </div>
+  <div class="paper">
+    Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://clearcode1124.github.io/atom.xml" target="_blank">RSS</a>
   </div>
 </div>
 
-<transition name="fade">
-  <div class="menu-container" style="display: none;" v-show="menuVisible">
-    <div class="menu-list">
-      
-        
-          <a href="/" class="menu purple-link">
-            首页
-          </a>
-        
-      
-        
-          <a href="/archives" class="menu purple-link">
-            归档
-          </a>
-        
-      
-        
-          <a href="/tags" class="menu purple-link">
-            标签
-          </a>
-        
-      
-        
-          <a href="/post/about" class="menu purple-link">
-            关于
-          </a>
-        
-      
     </div>
-  </div>
-</transition>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
 
+<script type="application/javascript">
 
-      <div class="content-container">
-        
-        
-<section class="post-item">
-    <div class="content">
-      <a href="https://clearcode1124.github.io/post/cert-zheng-shu">
-        <h2 class="post-title">Cert证书</h2>
-      </a>
-      <div class="post-abstract">
-        <p><strong>关于cert证书的一些笔记</strong></p>
-
-      </div>
-      <div class="post-info">
-        <span><i class="icon icon-calendar-outline"></i> 2019-10-12</span>
-        
-      </div>
-    </div>
-    
-  </section>
-
-<section class="post-item">
-    <div class="content">
-      <a href="https://clearcode1124.github.io/post/crontab">
-        <h2 class="post-title">Crontab</h2>
-      </a>
-      <div class="post-abstract">
-        <p><strong>关于crontab的一些笔记</strong></p>
-
-      </div>
-      <div class="post-info">
-        <span><i class="icon icon-calendar-outline"></i> 2019-10-12</span>
-        
-      </div>
-    </div>
-    
-  </section>
-
-<section class="post-item">
-    <div class="content">
-      <a href="https://clearcode1124.github.io/post/docker">
-        <h2 class="post-title">Docker</h2>
-      </a>
-      <div class="post-abstract">
-        <p><strong>关于Docker的一些笔记</strong></p>
-
-      </div>
-      <div class="post-info">
-        <span><i class="icon icon-calendar-outline"></i> 2019-10-12</span>
-        
-      </div>
-    </div>
-    
-  </section>
-
-<section class="post-item">
-    <div class="content">
-      <a href="https://clearcode1124.github.io/post/emq">
-        <h2 class="post-title">EMQ</h2>
-      </a>
-      <div class="post-abstract">
-        <p><strong>5G 时代，万物互联消息引擎</strong></p>
-
-      </div>
-      <div class="post-info">
-        <span><i class="icon icon-calendar-outline"></i> 2019-10-12</span>
-        
-      </div>
-    </div>
-    
-  </section>
-
-<section class="post-item">
-    <div class="content">
-      <a href="https://clearcode1124.github.io/post/git">
-        <h2 class="post-title">Git</h2>
-      </a>
-      <div class="post-abstract">
-        <p><strong>跟Git相关的一些笔记</strong></p>
-
-      </div>
-      <div class="post-info">
-        <span><i class="icon icon-calendar-outline"></i> 2019-10-12</span>
-        
-      </div>
-    </div>
-    
-  </section>
-
-<section class="post-item">
-    <div class="content">
-      <a href="https://clearcode1124.github.io/post/java">
-        <h2 class="post-title">Java</h2>
-      </a>
-      <div class="post-abstract">
-        <p><strong>跟Java相关的一些笔记</strong></p>
-
-      </div>
-      <div class="post-info">
-        <span><i class="icon icon-calendar-outline"></i> 2019-10-12</span>
-        
-      </div>
-    </div>
-    
-  </section>
-
-<section class="post-item">
-    <div class="content">
-      <a href="https://clearcode1124.github.io/post/linux">
-        <h2 class="post-title">Linux</h2>
-      </a>
-      <div class="post-abstract">
-        <p><strong>跟linux相关的一些笔记</strong></p>
-
-      </div>
-      <div class="post-info">
-        <span><i class="icon icon-calendar-outline"></i> 2019-10-12</span>
-        
-      </div>
-    </div>
-    
-  </section>
-
-<section class="post-item">
-    <div class="content">
-      <a href="https://clearcode1124.github.io/post/maven">
-        <h2 class="post-title">Maven</h2>
-      </a>
-      <div class="post-abstract">
-        <p><strong>跟Maven相关的一些笔记</strong></p>
-
-      </div>
-      <div class="post-info">
-        <span><i class="icon icon-calendar-outline"></i> 2019-10-12</span>
-        
-      </div>
-    </div>
-    
-  </section>
-
-<section class="post-item">
-    <div class="content">
-      <a href="https://clearcode1124.github.io/post/nutz">
-        <h2 class="post-title">Nutz</h2>
-      </a>
-      <div class="post-abstract">
-        <p><strong>跟Nutz相关的一些笔记</strong></p>
-
-      </div>
-      <div class="post-info">
-        <span><i class="icon icon-calendar-outline"></i> 2019-10-12</span>
-        
-      </div>
-    </div>
-    
-  </section>
-
-<section class="post-item">
-    <div class="content">
-      <a href="https://clearcode1124.github.io/post/mysql">
-        <h2 class="post-title">MySQL</h2>
-      </a>
-      <div class="post-abstract">
-        <p><strong>跟mysql相关的一些笔记</strong></p>
-
-      </div>
-      <div class="post-info">
-        <span><i class="icon icon-calendar-outline"></i> 2019-10-12</span>
-        
-      </div>
-    </div>
-    
-  </section>
-
-
-<div class="pagination-container">
-  
-  
-    <a href="https://clearcode1124.github.io/page/2/" class="next">下一页 <i class="icon-arrow-ios-forward-outline"></i></a>
-  
-</div>
-
-
-      </div>
-
-      <div class="site-footer">
-  <div class="slogan">在最深的红尘里与你相遇</div>
-  <div class="social-container">
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-  </div>
-  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://clearcode1124.github.io/atom.xml" target="_blank">RSS</a>
-</div>
-
-
-    </div>
-    <script type="application/javascript">
+AOS.init();
 
 hljs.initHighlightingOnLoad()
-
-var app = new Vue({
-  el: '#app',
-  data: {
-    menuVisible: false,
-  },
-})
 
 </script>
 
