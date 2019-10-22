@@ -19,7 +19,7 @@
      <div class="header">
       <div class="logo_title">
 		  
-        <div class="title animated fadeInDown"><img src="https://clearcode1124.github.io/images/avatar.png?v=1571388205386"/>
+        <div class="title animated fadeInDown"><img src="https://clearcode1124.github.io/images/avatar.png?v=1571712821132"/>
 
           <h1 title="CWD." class="weaklink"><a href="/">CWD.</a>
 
@@ -241,6 +241,9 @@
 <pre><code class="language-bash">cd /f/workspace/demo #进入项目的根目录
 
 mvn archetype:create-from-project #运行成功后生成的项目原型保存在当前目录的\target\generated-sources\archetype下
+
+cd \target\generated-sources\archetype
+mvn install #把archetype安装到本地仓库
 
 cd /f/workspace #在workspace文件夹下根据原型生成新的项目
 
