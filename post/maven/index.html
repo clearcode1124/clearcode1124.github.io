@@ -20,7 +20,7 @@
      <div class="header">
       <div class="logo_title">
 		  
-        <div class="title animated fadeInDown"><img src="https://clearcode1124.github.io/images/avatar.png?v=1571716475499"/>
+        <div class="title animated fadeInDown"><img src="https://clearcode1124.github.io/images/avatar.png?v=1572407284880"/>
 
           <h1 title="CWD." class="weaklink"><a href="/">CWD.</a>
 
@@ -248,7 +248,7 @@ mvn install #把archetype安装到本地仓库
 
 cd /f/workspace #在workspace文件夹下根据原型生成新的项目
 
-mvn archetype:generate -B -DarchetypeCatalog=local -DarchetypeRepository=原型的maven仓库地址（如果在本地直接写‘local’） -DarchetypeGroupId=原型的groupId -DarchetypeArtifactId=原型的artifactId -DarchetypeVersion=原型的version -DgroupId=新项目的groupId -DartifactId=新项目的artifactId
+mvn archetype:generate -B -DarchetypeCatalog=local -DarchetypeRepository=原型的maven仓库地址（如果在本地直接写‘local’） -DarchetypeGroupId=原型的groupId -DarchetypeArtifactId=原型的artifactId -DarchetypeVersion=原型的version -DgroupId=新项目的groupId -DartifactId=新项目的artifactId -Dpackage=新项目的包名
 </code></pre>
 <h3 id="将jar包安装到本地仓库">将jar包安装到本地仓库</h3>
 <pre><code class="language-bash">mvn install:install-file -Dfile=jar位置 -DgroupId=jar包的groupId -DartifactId=jar包的artifactId -Dpackaging=jar
