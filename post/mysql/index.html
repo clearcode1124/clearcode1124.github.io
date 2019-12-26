@@ -20,7 +20,7 @@
      <div class="header">
       <div class="logo_title">
 		  
-        <div class="title animated fadeInDown"><img src="https://clearcode1124.github.io/images/avatar.png?v=1572407284880"/>
+        <div class="title animated fadeInDown"><img src="https://clearcode1124.github.io/images/avatar.png?v=1577325302216"/>
 
           <h1 title="CWD." class="weaklink"><a href="/">CWD.</a>
 
@@ -294,6 +294,15 @@ DATE_ADD(NOW(), INTERVAL 1 DAY) # 后一天
 UNIX_TIMESTAMP(NOW()) # 转成时间戳
 
 FROM_UNIXTIME(UNIX_TIMESTAMP(NOW())) # 时间戳转成默认的时间格式：'%Y-%m-%d %H:%i:%s'
+</code></pre>
+<h1 id="获取某个表的所有字段">获取某个表的所有字段</h1>
+<pre><code class="language-sql">SELECT
+	COLUMN_NAME 
+FROM
+	information_schema.COLUMNS 
+WHERE
+	table_name = 'your_table_name' 
+AND table_schema = 'your_db_name';
 </code></pre>
 </p>
 
