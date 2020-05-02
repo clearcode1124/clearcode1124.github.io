@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://clearcode1124.github.io</id>
     <title>CWD.</title>
-    <updated>2020-01-08T02:56:35.742Z</updated>
+    <updated>2020-05-02T14:18:12.927Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://clearcode1124.github.io"/>
     <link rel="self" href="https://clearcode1124.github.io/atom.xml"/>
@@ -127,11 +127,11 @@ Docker version 1.13.1, build 94f4240/1.13.1
 <ul>
 <li>
 <p>用的是DaoCloud的加速器，进入控制台的加速器</p>
-<figure data-type="image" tabindex="1"><img src="http://ouesp352x.bkt.clouddn.com/DaoCloud%E5%8A%A0%E9%80%9F%E5%99%A81.jpg" alt=""></figure>
+<figure data-type="image" tabindex="1"><img src="http://ouesp352x.bkt.clouddn.com/DaoCloud%E5%8A%A0%E9%80%9F%E5%99%A81.jpg" alt="" loading="lazy"></figure>
 </li>
 <li>
 <p>复制代码到本地运行，即可将registry-mirror加入到Docker 配置文件 /etc/docker/daemon.json 中</p>
-<figure data-type="image" tabindex="2"><img src="http://ouesp352x.bkt.clouddn.com/DaoCloud%E5%8A%A0%E9%80%9F%E5%99%A82.jpg" alt=""></figure>
+<figure data-type="image" tabindex="2"><img src="http://ouesp352x.bkt.clouddn.com/DaoCloud%E5%8A%A0%E9%80%9F%E5%99%A82.jpg" alt="" loading="lazy"></figure>
 <pre><code class="language-bash">curl -sSL https://get.daocloud.io/daotools/set_mirror.sh | sh -s http://010e8490.m.daocloud.io #运行复制的命令
 docker version &gt;= 1.12
 {&quot;registry-mirrors&quot;: [&quot;http://010e8490.m.daocloud.io&quot;],}
@@ -667,7 +667,7 @@ sudo: unable to resolve host iZwz92qfb6ao9koavdyhcfZ
 </ol>
 </li>
 </ul>
-<figure data-type="image" tabindex="1"><img src="https://upload-images.jianshu.io/upload_images/8051284-3dadf12cb5f66575.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></figure>
+<figure data-type="image" tabindex="1"><img src="https://upload-images.jianshu.io/upload_images/8051284-3dadf12cb5f66575.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="" loading="lazy"></figure>
 <h4 id="删除用户">删除用户</h4>
 <pre><code class="language-bash">userdel username
 </code></pre>

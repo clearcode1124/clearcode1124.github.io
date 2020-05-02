@@ -1,13 +1,13 @@
 
 <html>
-  <head lang="zh">
+<head lang="zh">
         <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"/>
         <meta content="yes" name="apple-mobile-web-app-capable"/>
         <meta content="black" name="apple-mobile-web-app-status-bar-style"/>
         <meta content="telephone=no" name="format-detection"/>
         <meta name="renderer" content="webkit">
         <meta name="google-site-verification" content="etfdt4Ny1XhLEqlw2uMtVqIynKIkKf9F0t3Ho3KYoUs" />
-    <title>Maven | CWD.</title>
+    <title>CWD.</title>
 <link href="https://clearcode1124.github.io/styles/main.css" type="text/css" rel="stylesheet"/>
 <script type="text/javascript" src="https://clearcode1124.github.io/media/scripts/jquery.js"></script>
 <script type="text/javascript" src="https://clearcode1124.github.io/media/scripts/basic.js"></script>
@@ -17,7 +17,7 @@
   </head>
 
   <body>
-     <div class="header">
+    <div class="header">
       <div class="logo_title">
 		  
         <div class="title animated fadeInDown"><img src="https://clearcode1124.github.io/images/avatar.png?v=1588428975541"/>
@@ -136,7 +136,6 @@
     <div class="main">
       <div class="main-inner">
 
-
 <div class="content">
 
 
@@ -144,28 +143,28 @@
 
 
 
-  <div class="post_page" >
+  <div class="post_list" >
 
+	
 <div class="post">
-  <div class="post_title sm_margin">
-    <h2><a>Maven</a>
-
-
-
+  <div class="post_title weaklink">
+    <h2><a href="https://clearcode1124.github.io/post/hello-gridea" >Hello Gridea</a>
     </h2>
   </div>
-
-  <div class="post_details">
-    <div class="info"><i class="fa fa-clock-o"></i>
-<span class="date_info">2019-10-12</span>
-<i class="fa fa-eye"></i>
-
-<span class="date_info"><span id="busuanzi_value_page_pv"></span> Views</span>
-
+  <div class="post_content markdown"><div class="p_part"><p><p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
+✍️  <strong>Gridea</strong> 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...</p>
+</p></div></div>
+  <div class="post_footer">
+    <div class="info weaklink"><i class="fa fa-clock-o"></i>
+<span class="date_info">2018-12-12</span>
 
 <i class="fa fa-bookmark-o"></i>
+	
 <span class="tags_info weaklink">
 	
+	<a href="https://clearcode1124.github.io/tag/suQE0Uz7H" class="tag">Gridea</a>
+
+
 
 </span>
 
@@ -174,126 +173,20 @@
 
   </div>
 
-
-
-
-
-  <div class="post_content markdown"><p class="md_block">
-    <span class="md_line md_line_start md_line_end"><p><strong>跟Maven相关的一些笔记</strong></p>
-<!-- more -->
-<h3 id="利用mvn-deploy命令将jar包上传到nexus服务器">利用mvn deploy命令将jar包上传到nexus服务器</h3>
-<ul>
-<li>
-<p>参考自<a href="https://my.oschina.net/u/566545/blog/371514">joenali的个人空间</a></p>
-</li>
-<li>
-<p>修改setting.xml，在<profiles></profiles>标签内增加以下内容</p>
-</li>
-</ul>
-<pre><code class="language-xml">&lt;profile&gt;
-    &lt;id&gt;test&lt;/id&gt;
-    &lt;repositories&gt;
-        &lt;repository&gt;
-            &lt;id&gt;nexus&lt;/id&gt;
-            &lt;name&gt;local_repositories&lt;/name&gt;
-            &lt;url&gt;http://localhost:8081/nexus/content/groups/public/&lt;/url&gt;
-            &lt;releases&gt;
-                &lt;enabled&gt;true&lt;/enabled&gt;
-            &lt;/releases&gt;
-            &lt;snapshots&gt;
-                &lt;enabled&gt;true&lt;/enabled&gt;
-            &lt;/snapshots&gt;
-        &lt;/repository&gt;
-    &lt;/repositories&gt;
-&lt;/profile&gt;
-</code></pre>
-<ul>
-<li>修改setting.xml，在<servers></servers>标签内增加以下内容</li>
-</ul>
-<pre><code class="language-xml">&lt;server&gt;
-   &lt;id&gt;releases&lt;/id&gt; &lt;!-- nexus仓库的ID，比如这里选的是releases仓库 --&gt;
-   &lt;username&gt;deployment&lt;/username&gt; &lt;!-- 这里使用的是nexus的帐号：deployment，可以在nexus服务器管理 --&gt;
-   &lt;password&gt;deployment123&lt;/password&gt; &lt;!-- deployment帐号默认密码： deployment123 --&gt;
-&lt;/server&gt;
-</code></pre>
-<ul>
-<li>修改项目下的pom.xml，在<project></project>标签内增加如下内容</li>
-</ul>
-<pre><code class="language-xml">&lt;distributionManagement&gt;
-    &lt;snapshotRepository&gt;
-        &lt;id&gt;snapshots&lt;/id&gt;
-        &lt;name&gt;Nexus Snapshot Repository&lt;/name&gt;
-        &lt;url&gt;http://localhost:8081/nexus/content/repositories/snapshots&lt;/url&gt;
-    &lt;/snapshotRepository&gt;
-
-    &lt;repository&gt;
-        &lt;id&gt;releases&lt;/id&gt;
-        &lt;name&gt;Nexus Release Repository&lt;/name&gt;
-        &lt;url&gt;http://localhost:8081/nexus/content/repositories/releases&lt;/url&gt;
-    &lt;/repository&gt;
-&lt;/distributionManagement&gt;
-</code></pre>
-<ul>
-<li>在项目根目录下运行命令即可</li>
-</ul>
-<pre><code class="language-bash">mvn deploy -DskipTests -Dsnapshots.repo=http://localhost:8081/nexus/content/repositories/snapshots -Dreleases.repo=http://localhost:8081/nexus/content/repositories/releases
-</code></pre>
-<h3 id="生成项目原型以及用原型生成新的项目">生成项目原型以及用原型生成新的项目</h3>
-<pre><code class="language-bash">cd /f/workspace/demo #进入项目的根目录
-
-mvn archetype:create-from-project #运行成功后生成的项目原型保存在当前目录的\target\generated-sources\archetype下
-
-cd \target\generated-sources\archetype
-mvn install #把archetype安装到本地仓库
-
-cd /f/workspace #在workspace文件夹下根据原型生成新的项目
-
-mvn archetype:generate -B -DarchetypeCatalog=local -DarchetypeRepository=原型的maven仓库地址（如果在本地直接写‘local’） -DarchetypeGroupId=原型的groupId -DarchetypeArtifactId=原型的artifactId -DarchetypeVersion=原型的version -DgroupId=新项目的groupId -DartifactId=新项目的artifactId -Dpackage=新项目的包名
-</code></pre>
-<h3 id="将jar包安装到本地仓库">将jar包安装到本地仓库</h3>
-<pre><code class="language-bash">mvn install:install-file -Dfile=jar位置 -DgroupId=jar包的groupId -DartifactId=jar包的artifactId -Dpackaging=jar
-</code></pre>
-</p>
-
-     <p class="md_block">
-    <!-- <div class="reward"><div class="reward-button">赏 <span class="reward-code"> <span class="alipay-code"> <img class="alipay-img" src="https://clearcode1124.github.io/media/images/alipay.png"><b>支付宝扫码打赏</b> </span> <span class="wechat-code"> <img class="wechat-img" src="https://clearcode1124.github.io/media/images/wechat.png"><b>微信打赏</b> </span> </span></div></div> -->
-</p> 
 </div>
+	
+	
 
-</div>
+<div class="paginator pager pagination" >
+	
 
 
 
-<link href="https://clearcode1124.github.io/styles/main.css" type="text/css" rel="stylesheet"/>
+    <div style="clear:both;height:0;"></div>
 
-<div class="doc_comments">
 
-          
-            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+  </div>
 
-<div id="gitalk-container"></div>
-
-<script>
-
-  var gitalk = new Gitalk({
-    clientID: '53cf70500749d5e16efb',
-    clientSecret: 'ec42fb716a39806b3482beeac0e9bb0462bf0d78',
-    repo: 'clearcode1124.github.io',
-    owner: 'clearcode1124',
-    admin: ['clearcode1124'],
-    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
-    distractionFreeMode: false  // Facebook-like distraction free mode
-  })
-
-  gitalk.render('gitalk-container')
-
-</script>
-
-          
-			  
-          
-        
 </div>
 
 
@@ -305,12 +198,9 @@ mvn archetype:generate -B -DarchetypeCatalog=local -DarchetypeRepository=原型�
 
       </div>
 
-
-
-
     </div>
 
-   <div class="footer">
+    <div class="footer">
 <link href="https://clearcode1124.github.io/styles/main.css" type="text/css" rel="stylesheet"/><div class="site_footer_wrap"><div class="site_footer">
 
       <div class="mysocials"><div class="my_socials">
